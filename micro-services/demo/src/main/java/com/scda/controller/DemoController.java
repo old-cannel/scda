@@ -1,6 +1,5 @@
 package com.scda.controller;
 
-import com.scda.common.response.ResponseEnum;
 import com.scda.common.response.ResponseVo;
 import com.scda.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,6 @@ public class DemoController {
 
     @GetMapping("/test/{id}")
     public ResponseVo test(@PathVariable("id") String id) {
-        return ResponseVo.of(ResponseEnum.SUCCESS, demoService.findById(id));
+        return ResponseVo.success(demoService.findById(id));
     }
 }
