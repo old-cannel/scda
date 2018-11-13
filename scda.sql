@@ -1,8 +1,4 @@
-/*==============================================================*/
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018-05-11 16:41:18                          */
-/*==============================================================*/
-
+drop table if exists demo;
 
 drop index Index_5 on sys_menu;
 
@@ -29,6 +25,25 @@ drop index Index_3 on sys_user_role;
 drop table if exists sys_user_role;
 
 /*==============================================================*/
+/* Table: demo                                                  */
+/*==============================================================*/
+create table demo
+(
+   id                   char(32) not null comment 'id',
+   code                 varchar(64),
+   name                 varchar(100),
+   primary key (id)
+,   
+   del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
+   add_time datetime NOT NULL COMMENT '创建时间',
+   add_user_code varchar(64) NOT NULL COMMENT '创建者',
+   add_mark varchar(250) NOT NULL COMMENT '新增备注',
+   upd_time datetime DEFAULT NULL COMMENT '更新时间',
+   upd_user_code varchar(64) DEFAULT NULL COMMENT '更新者',
+   upd_mark varchar(250) DEFAULT NULL COMMENT '更新备注'
+);
+
+/*==============================================================*/
 /* Table: sys_menu                                              */
 /*==============================================================*/
 create table sys_menu
@@ -45,18 +60,16 @@ create table sys_menu
    sup_names            varchar(300) comment '上级名称集合',
    status               char(1) not null default '1' comment '状态,0禁用，1启用',
    sort                 int default 10000 comment '排序',
-   primary key (id),
-   delFlag              char(1) not null comment '删除标识(0:未删除，1：已删除)',
-   addTime              datetime not null comment '创建时间',
-   addUserId            varchar(32) not null comment '创建者',
-   addMark              varchar(10) null comment '创建页面ID',
-   updTime              datetime comment '更新时间',
-   updUserId            varchar(32) comment '更新者',
-   updMark              varchar(10) comment '更新页面ID',
-   rec_code              decimal(20,0) comment '静态编码'
-
-)
-;
+   primary key (id)
+,   
+   del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
+   add_time datetime NOT NULL COMMENT '创建时间',
+   add_user_code varchar(64) NOT NULL COMMENT '创建者',
+   add_mark varchar(250) NOT NULL COMMENT '新增备注',
+   upd_time datetime DEFAULT NULL COMMENT '更新时间',
+   upd_user_code varchar(64) DEFAULT NULL COMMENT '更新者',
+   upd_mark varchar(250) DEFAULT NULL COMMENT '更新备注'
+);
 
 alter table sys_menu comment '菜单';
 
@@ -83,18 +96,16 @@ create table sys_organization
    sup_name             varchar(30) comment '上级机构名称',
    sup_codes            varchar(350) comment '上级结构编码集合',
    sup_names            varchar(300) comment '上级机构名称集合',
-   primary key (id),
-   delFlag              char(1) not null comment '删除标识(0:未删除，1：已删除)',
-   addTime              datetime not null comment '创建时间',
-   addUserId            varchar(32) not null comment '创建者',
-   addMark              varchar(10) null comment '创建页面ID',
-   updTime              datetime comment '更新时间',
-   updUserId            varchar(32) comment '更新者',
-   updMark              varchar(10) comment '更新页面ID',
-   rec_code              decimal(20,0) comment '静态编码'
-
-)
-;
+   primary key (id)
+,   
+   del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
+   add_time datetime NOT NULL COMMENT '创建时间',
+   add_user_code varchar(64) NOT NULL COMMENT '创建者',
+   add_mark varchar(250) NOT NULL COMMENT '新增备注',
+   upd_time datetime DEFAULT NULL COMMENT '更新时间',
+   upd_user_code varchar(64) DEFAULT NULL COMMENT '更新者',
+   upd_mark varchar(250) DEFAULT NULL COMMENT '更新备注'
+);
 
 alter table sys_organization comment '组织机构';
 
@@ -115,18 +126,16 @@ create table sys_role
    name                 varchar(30) not null comment '角色名称',
    status               char(1) not null default '1' comment '状态,0禁用，1启用',
    remark               varchar(256) comment '备注',
-   primary key (id),
-   delFlag              char(1) not null comment '删除标识(0:未删除，1：已删除)',
-   addTime              datetime not null comment '创建时间',
-   addUserId            varchar(32) not null comment '创建者',
-   addMark              varchar(10) null comment '创建页面ID',
-   updTime              datetime comment '更新时间',
-   updUserId            varchar(32) comment '更新者',
-   updMark              varchar(10) comment '更新页面ID',
-   rec_code              decimal(20,0) comment '静态编码'
-
-)
-;
+   primary key (id)
+,   
+   del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
+   add_time datetime NOT NULL COMMENT '创建时间',
+   add_user_code varchar(64) NOT NULL COMMENT '创建者',
+   add_mark varchar(250) NOT NULL COMMENT '新增备注',
+   upd_time datetime DEFAULT NULL COMMENT '更新时间',
+   upd_user_code varchar(64) DEFAULT NULL COMMENT '更新者',
+   upd_mark varchar(250) DEFAULT NULL COMMENT '更新备注'
+);
 
 alter table sys_role comment '角色';
 
@@ -146,18 +155,16 @@ create table sys_role_menu
    id                   char(32) not null comment 'id',
    menu_id              char(32) not null comment '菜单id',
    role_id              char(32) not null comment '角色id',
-   primary key (id),
-   delFlag              char(1) not null comment '删除标识(0:未删除，1：已删除)',
-   addTime              datetime not null comment '创建时间',
-   addUserId            varchar(32) not null comment '创建者',
-   addMark              varchar(10) null comment '创建页面ID',
-   updTime              datetime comment '更新时间',
-   updUserId            varchar(32) comment '更新者',
-   updMark              varchar(10) comment '更新页面ID',
-   rec_code              decimal(20,0) comment '静态编码'
-
-)
-;
+   primary key (id)
+,   
+   del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
+   add_time datetime NOT NULL COMMENT '创建时间',
+   add_user_code varchar(64) NOT NULL COMMENT '创建者',
+   add_mark varchar(250) NOT NULL COMMENT '新增备注',
+   upd_time datetime DEFAULT NULL COMMENT '更新时间',
+   upd_user_code varchar(64) DEFAULT NULL COMMENT '更新者',
+   upd_mark varchar(250) DEFAULT NULL COMMENT '更新备注'
+);
 
 alter table sys_role_menu comment '角色菜单';
 
@@ -184,18 +191,16 @@ create table sys_user
    status               char(1) not null default '1' comment '状态,0禁用，1启用',
    super_user           char(1) not null default '0' comment '是否超级用户，0否，1是',
    remark               varchar(250) comment '备注',
-   primary key (id),
-   delFlag              char(1) not null comment '删除标识(0:未删除，1：已删除)',
-   addTime              datetime not null comment '创建时间',
-   addUserId            varchar(32) not null comment '创建者',
-   addMark              varchar(10) null comment '创建页面ID',
-   updTime              datetime comment '更新时间',
-   updUserId            varchar(32) comment '更新者',
-   updMark              varchar(10) comment '更新页面ID',
-   rec_code              decimal(20,0) comment '静态编码'
-
-)
-;
+   primary key (id)
+,   
+   del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
+   add_time datetime NOT NULL COMMENT '创建时间',
+   add_user_code varchar(64) NOT NULL COMMENT '创建者',
+   add_mark varchar(250) NOT NULL COMMENT '新增备注',
+   upd_time datetime DEFAULT NULL COMMENT '更新时间',
+   upd_user_code varchar(64) DEFAULT NULL COMMENT '更新者',
+   upd_mark varchar(250) DEFAULT NULL COMMENT '更新备注'
+);
 
 alter table sys_user comment '用户';
 
@@ -215,18 +220,16 @@ create table sys_user_role
    id                   char(32) not null comment 'id',
    user_id              char(32) not null comment '用户id',
    role_id              char(32) not null comment '角色id',
-   primary key (id),
-   delFlag              char(1) not null comment '删除标识(0:未删除，1：已删除)',
-   addTime              datetime not null comment '创建时间',
-   addUserId            varchar(32) not null comment '创建者',
-   addMark              varchar(10) null comment '创建页面ID',
-   updTime              datetime comment '更新时间',
-   updUserId            varchar(32) comment '更新者',
-   updMark              varchar(10) comment '更新页面ID',
-   rec_code              decimal(20,0) comment '静态编码'
-
-)
-;
+   primary key (id)
+,   
+   del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
+   add_time datetime NOT NULL COMMENT '创建时间',
+   add_user_code varchar(64) NOT NULL COMMENT '创建者',
+   add_mark varchar(250) NOT NULL COMMENT '新增备注',
+   upd_time datetime DEFAULT NULL COMMENT '更新时间',
+   upd_user_code varchar(64) DEFAULT NULL COMMENT '更新者',
+   upd_mark varchar(250) DEFAULT NULL COMMENT '更新备注'
+);
 
 alter table sys_user_role comment '用户角色';
 
@@ -252,4 +255,3 @@ alter table sys_user_role add constraint FK_Reference_2 foreign key (user_id)
 
 alter table sys_user_role add constraint FK_Reference_3 foreign key (role_id)
       references sys_role (id) on delete restrict on update restrict;
-
