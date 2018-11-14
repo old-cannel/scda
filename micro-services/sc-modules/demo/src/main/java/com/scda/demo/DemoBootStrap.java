@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -16,27 +17,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringCloudApplication
 @MapperScan(basePackages = "com.scda.*.mapper*")
+@ComponentScan("com.scda")
 @EnableTransactionManagement
 public class DemoBootStrap {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DemoBootStrap.class).web(true).run(args);
     }
-    /**
-     * 分页插件
-     */
-    @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        return new PaginationInterceptor();
-    }
 
-    /**
-     * 性能分析插件 dev  环境开启
-     */
-    @Bean
-    public PerformanceInterceptor performanceInterceptor() {
-        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
-        //格式化sql
-        performanceInterceptor.setFormat(true);
-        return performanceInterceptor;
-    }
 }
