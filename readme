@@ -3,7 +3,7 @@
 #目录结构
 #apps 应用 dav+antd nmp管理
 #microservices 微服务 Spring boot+cloud maven管理
-common 公共服务
+sc-common 公共服务
 sc-config 配置中心
 sc-security 认证授权中心
 sc-eureka 注册服务
