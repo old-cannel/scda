@@ -13,8 +13,8 @@
         <module>sc-eureka</module>
         <module>sc-zuul</module>
         <module>sc-config</module>
-        <module>demo</module>
         <module>sc-common</module>
+        <module>sc-modules</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -31,10 +31,17 @@
         <boot.druid.version>1.1.10</boot.druid.version>
         <mybatis.plus.starter.version>3.0.1</mybatis.plus.starter.version>
         <mysql.driver.version>5.1.39</mysql.driver.version>
+        <hutool.version>4.1.14</hutool.version>
         <dockerfile-maven-version>1.4.4</dockerfile-maven-version>
     </properties>
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
