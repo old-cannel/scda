@@ -8,3 +8,5 @@ sc-config 配置中心
 sc-security 认证授权中心
 sc-eureka 注册服务
 sc-zuul 网关
+sc-modules 业务模块
+    demo 演示模块
