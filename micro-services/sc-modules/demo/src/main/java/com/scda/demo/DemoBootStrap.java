@@ -6,6 +6,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -16,9 +17,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Description:
  */
 @SpringCloudApplication
-@MapperScan(basePackages = "com.scda.*.mapper*")
 @ComponentScan("com.scda")
 @EnableTransactionManagement
+@MapperScan(basePackages = "com.scda.*.mapper*")
+@EnableEurekaClient
 public class DemoBootStrap {
     public static void main(String[] args) {
         new SpringApplicationBuilder(DemoBootStrap.class).web(true).run(args);
