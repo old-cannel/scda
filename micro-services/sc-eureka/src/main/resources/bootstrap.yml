@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: sc-eureka
+
+server:
+  port: ${EUREKA_PORT:8761}
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+  server:
+    response-cache-auto-expiration-in-seconds: 10
+
+logging:
+  path: "/logs/${spring.application.name}"
+security:
+  basic:
+    enabled: false
+  user:
+    name: scda #用户名
+    password: scda #密码

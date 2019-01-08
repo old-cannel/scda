@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: sc-config
+  cloud:
+    bus:
+      trace:
+        enabled: true
+    config:
+      server:
+        git:
+          uri: https://github.com/sunnyliuqi/scda-config.git
+          default-label: master
+          username:
+          password:
+          search-paths:
+
+  rabbitmq:
+    host: 10.110.1.254
+    port: 5672
+    username: admin
+    password: admin
+server:
+  port: ${PORT:8762}
+logging:
+  path: "/logs/${spring.application.name}"
+  level:
+#    com.netflix: DEBUG
+    com.sdca: DEBUG
+security:
+  basic:
+    enabled: false
+  user:
+    name: scda
+    password: scda
+eureka:
+  client:
+    serviceUrl:
+#      defaultZone: http://scda:scda@${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+      defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+management:
+  security:
+    enabled: false
