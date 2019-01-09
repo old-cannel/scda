@@ -21,7 +21,7 @@ import java.util.List;
  * @Date 2018-06-11.
  * @describe
  */
-@Configuration
+//@Configuration
 public class DynDataSourceRegister {
     private static Logger LOGGER = LoggerFactory.getLogger(DynDataSourceRegister.class);
     public static final String ONE = "one";

@@ -18,9 +18,9 @@ import java.lang.reflect.Method;
  * @Date 2018-06-08.
  * @describe 动态数据源切面拦截更换
  */
-@Aspect
-@Component
-@Order(1)
+//@Aspect
+//@Component
+//@Order(1)
 public class DynDataSourceAspect {
 
   private Logger logger = LoggerFactory.getLogger(getClass());

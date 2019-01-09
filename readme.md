@@ -48,3 +48,14 @@ public ResponseVo add(@Valid @RequestBody DemoVo demoVo, BindingResult bindingRe
 1.在类上面添加注解@Slf4j
 2.在该类内的任意地方即可使用log对象
 
+#动态多数据源使用和关闭
+1.关闭（默认）
+    注释掉micro-services\sc-common\src\main\java\com\scda\common\db\dyndata\DynDataSourceRegister.java类中的
+    //@Configuration
+    注释掉micro-services\sc-common\src\main\java\com\scda\common\db\dyndata\DynDataSourceAspect.java类中的
+    //@Aspect
+    //@Component
+    //@Order(1)
+2.放开关闭中提到的注解
+3.默认是支持两个数据源的，如果需要多个可以在micro-services\sc-common\src\main\java\com\scda\common\db\dyndata\DynDataSourceAspect.java类中的修改doBefore方法
+4.以上方式可以用mycat中间件方案来统一管理，优点与编码解耦
