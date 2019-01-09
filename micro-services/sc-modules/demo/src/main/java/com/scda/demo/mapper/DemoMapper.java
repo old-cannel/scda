@@ -1,7 +1,7 @@
 package com.scda.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.scda.common.entity.demo.DemoVo;
+import com.scda.business.common.entity.demo.DemoVo;
 import org.springframework.stereotype.Repository;
 
 /**
