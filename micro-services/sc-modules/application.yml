@@ -29,7 +29,7 @@ spring:
 
       #      利用数据库驱动自带的replication机制进行读写分离
       driver-class-name: com.mysql.jdbc.ReplicationDriver
-      url: jdbc:mysql:replication://10.110.1.254:3306,10.110.1.254:3306/scda?useUnicode=true&characterEncoding=UTF-8&autoReconnect=false&useSSL=false&failOverReadOnly=true&loadBalanceStrategy=random&readFormMasterNoSlaves=true
+      url: jdbc:mysql:replication://127.0.0.1:3306,127.0.0.1:3306/security?useUnicode=true&characterEncoding=UTF-8&autoReconnect=false&useSSL=false&failOverReadOnly=true&loadBalanceStrategy=random&readFormMasterNoSlaves=true
 
       initial-size: 5
       max-active: 20
