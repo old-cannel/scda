@@ -44,3 +44,7 @@ server:
 public ResponseVo add(@Valid @RequestBody DemoVo demoVo, BindingResult bindingResult)
 3. 自定义数据验证规则，上图 @IsNumber(message = "编码必须为数字")就是自定义的验证规则，具体参考scda\micro-services\sc-common\src\main\java\com\scda\common\valid目录
 
+#日志Slf4j使用
+1.在类上面添加注解@Slf4j
+2.在该类内的任意地方即可使用log对象
+
