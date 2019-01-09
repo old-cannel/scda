@@ -10,7 +10,7 @@ sc-eureka 注册和发现服务（框架）
 sc-zuul 网关（框架）
 sc-modules 业务模块
     common-business 公共业务（业务）
-    demo 演示模块（所有模块都要依赖公共业务）
+    demo 示例模块（新增模块都要依赖公共业务）
 
 #微服务框架下应用启动顺序
 运行注册发现 sc-eureka
@@ -34,4 +34,13 @@ server:
   port: ${PORT:xx}
   context-path: /xx
 
+
+#请求数据验证
+1.在实体类中直接加注解，例如
+    @NotBlank(message = "编码不能为空")
+    @IsNumber(message = "编码必须为数字")
+    private String code;
+2.在对应的restful方法上加上注解，校验结果会在bindingResult中，例如
+public ResponseVo add(@Valid @RequestBody DemoVo demoVo, BindingResult bindingResult)
+3. 自定义数据验证规则，上图 @IsNumber(message = "编码必须为数字")就是自定义的验证规则，具体参考scda\micro-services\sc-common\src\main\java\com\scda\common\valid目录
 
