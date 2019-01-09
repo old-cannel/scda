@@ -3,13 +3,14 @@
 #目录结构
 #apps 应用 dav+antd nmp管理
 #microservices 微服务 Spring boot+cloud maven管理
-sc-common 公共服务
-sc-config 配置中心
-sc-security 认证授权中心
-sc-eureka 注册和发现服务
-sc-zuul 网关
+sc-common 公共服务（框架）
+sc-config 配置中心（框架）
+sc-security 认证授权中心（框架）
+sc-eureka 注册和发现服务（框架）
+sc-zuul 网关（框架）
 sc-modules 业务模块
-    demo 演示模块
+    common-business 公共业务（业务）
+    demo 演示模块（所有模块都要依赖公共业务）
 
 #微服务框架下应用启动顺序
 运行注册发现 sc-eureka

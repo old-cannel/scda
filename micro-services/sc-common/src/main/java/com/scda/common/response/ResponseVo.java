@@ -132,4 +132,19 @@ public class ResponseVo implements Serializable {
         return responseVo;
     }
 
+    /**
+     * 业务数据验证未通过
+     * @param result
+     * @return
+     */
+    public static ResponseVo validFail(Object result) {
+        ResponseVo responseVo = new ResponseVo();
+        responseVo.setCode(ResponseEnum.VALID_FAIL.getCode());
+        responseVo.setMsg(ResponseEnum.VALID_FAIL.getMessage());
+        if (result != null) {
+            responseVo.setResult((Serializable) result);
+        }
+
+        return responseVo;
+    }
 }

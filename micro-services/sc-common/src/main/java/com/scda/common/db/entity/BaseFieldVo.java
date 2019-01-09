@@ -11,7 +11,7 @@ import java.util.Date;
  * Created by liuqi on 2017-05-12.
  */
 @Data
-public class BaseFieldVo<T> implements Serializable {
+public class BaseFieldVo implements Serializable {
     /**
      * serialVersionUID
      */
