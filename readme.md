@@ -61,4 +61,5 @@ public ResponseVo add(@Valid @RequestBody DemoVo demoVo, BindingResult bindingRe
 4.以上方式可以用mycat中间件方案来统一管理，优点与编码解耦
 
 
-#认证授权sc-security
+#认证授权模块sc-security
+    使用说明见micro-services\sc-security\readme.md

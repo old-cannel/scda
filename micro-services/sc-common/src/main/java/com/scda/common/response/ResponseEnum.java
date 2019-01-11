@@ -13,6 +13,7 @@ public enum ResponseEnum {
   NO_DATA(10002, "暂无数据！"),
   /* 失败信息 */
   FAIL(20000, "请求失败"),
+  ACCESS_DENIED(20001, "拒绝访问"),
   VALID_FAIL(20002, "参数格式不正确"),
 
   ;
