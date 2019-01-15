@@ -112,11 +112,11 @@ public class JwtUtils {
     }
 
     public static void main(String[] args) {
-        JSONObject json = new JSONObject();
+       /* JSONObject json = new JSONObject();
         json.put("frame", "scda");
         log.debug("数据加密前：{}", json.toJSONString());
         String token = JwtUtils.tokenWithTime(json);
-        log.debug("数据加密后：{}", token);
+        log.debug("数据加密后：{}", token);*/
 
 //        Map<String,String> headerMap=new HashMap<>();
 //        headerMap.put("username","username");
@@ -125,15 +125,16 @@ public class JwtUtils {
 //        log.debug("数据加密后：{}", token);
 //        log.debug("数据解密Header：{}", JSONObject.toJSONString(JwtHelper.headers(token)));
 
+        String token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsInZhbGlkVGltZSI6IjE1NDc1NjYwNDg5MzkifQ.eyJhY2NvdW50Tm9uRXhwaXJlZCI6dHJ1ZSwiYWNjb3VudE5vbkxvY2tlZCI6dHJ1ZSwiYXV0aG9yaXRpZXMiOlt7ImF1dGhvcml0eSI6InVzZXIifV0sImNyZWRlbnRpYWxzTm9uRXhwaXJlZCI6dHJ1ZSwiZW5hYmxlZCI6dHJ1ZSwidXNlcm5hbWUiOiIxMiJ9.nlKte2BZDkD2S9cRA_MGz4O9f2ct0ZepAw5b_YuU40E";
         JSONObject info = JwtUtils.verifyWithTime(token);
         log.debug("数据解密后：{}", info.toJSONString());
         log.debug("数据解密Header：{}", JSONObject.toJSONString(JwtHelper.headers(token)));
 
-        String newToken = refreshToken(token);
+        /*String newToken = refreshToken(token);
         log.debug("数据刷新后的凭证：{}", newToken);
         JSONObject newInfo = JwtUtils.verifyWithTime(newToken);
         log.debug("刷新数据解密后：{}", newInfo.toJSONString());
-        log.debug("刷新数据解密Header：{}", JSONObject.toJSONString(JwtHelper.headers(newToken)));
+        log.debug("刷新数据解密Header：{}", JSONObject.toJSONString(JwtHelper.headers(newToken)));*/
 //        Date date =new Date();
 //        log.debug("当前时间："+date.getTime());
 //        log.debug("十秒后时间："+DateUtil.offsetSecond(date,10).getTime());
