@@ -8,16 +8,41 @@ logging:
     com.sdca: DEBUG
 spring:
   redis:
+    # 普通集群，不使用则不用开启
+    #    cluster:
+    #在群集中执行命令时要遵循的最大重定向数目
+    #      max-redirects:
+    # 以逗号分隔的“主机：端口”对列表进行引导
+    #      nodes:
+    #哨兵模式，不配置则不启用
+    #    sentinel:
+    #redis服务器的名称
+    #      master: mymaster
+    #主机：端口对的逗号分隔列表
+    #      nodes: 172.16.10.40:26379,172.16.10.41:26379,172.16.10.46:26379
+    # 连接工厂使用的数据库索引
     database: 0
+    # Redis服务器主机。
     host: 10.110.1.254
+    # 登录redis服务器的密码
     password:
+    #Redis服务端口
     port: 6379
+    #启用SSL支持
+    ssl: false
+    #连接池
     pool:
+      #池在给定时间可以分配的最大连接数。使用负值无限制
       max-active: 100
+      #池中“空闲”连接的最大数量。使用负值表示无限数量的空闲连接
       max-idle: 100
+      #连接分配在池被耗尽时抛出异常之前应该阻塞的最长时间量（以毫秒为单位）。使用负值可以无限期地阻止
       max-wait: -1
+      #连接分配在池被耗尽时抛出异常之前应该阻塞的最长时间量（以毫秒为单位）。使用负值可以无限期地阻止
       min-idle: 0
+    #以毫秒为单位的连接超时
     timeout: 0
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
@@ -52,9 +77,11 @@ spring:
     port: 5672
     username: admin
     password: admin
-
   aop:
     proxy-target-class: true
+  cloud:
+    bus:
+      enabled: false
 
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
