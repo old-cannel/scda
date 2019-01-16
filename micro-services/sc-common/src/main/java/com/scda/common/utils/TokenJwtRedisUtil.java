@@ -70,7 +70,8 @@ public class TokenJwtRedisUtil {
     public JSONObject decodeVerifyToken(String token){
         JSONObject info=(JSONObject) redisUtil.hget(TOKEN_HASH_KEY,token);
         if(info!=null){
-            return JwtUtils.verifyWithTime(token);
+            JwtUtils.verifyWithTime(token);
+            return info;
         }
         throw new RuntimeException(ResponseEnum.NO_LOGIN.getMessage());
     }
