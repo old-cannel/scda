@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * @Auther: liuqi
  * @Date: 2019/1/10 20:07
- * @Description:
+ * @Description: 退出成功
  */
 @Component
 public class AjaxLogoutSuccessHandler implements LogoutSuccessHandler {
