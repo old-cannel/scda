@@ -2,13 +2,13 @@ package com.scda.security.filter;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.scda.common.utils.JwtUtils;
+import com.scda.common.utils.TokenJwtRedisUtil;
+import com.scda.security.config.WebSecurityConfig;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -18,8 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @Auther: liuqi
@@ -29,31 +27,32 @@ import java.util.Set;
  */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-    private String tokenHeader = "Authorization";
+    @Autowired
+    private TokenJwtRedisUtil tokenJwtRedisUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        String jwtToken = httpServletRequest.getHeader(tokenHeader);
+        String jwtToken = httpServletRequest.getHeader(WebSecurityConfig.TOKEN_HEADER);
 //        存在认证的token，解析出来放到UsernamePasswordAuthenticationToken，这样就可以直接进行权限认证了
         if (StringUtils.isNotBlank(jwtToken)) {
             //解析验证token,获取用户名和权限
-            JSONObject info = JwtUtils.verifyWithTime(jwtToken);
+            JSONObject info = tokenJwtRedisUtil.decodeVerifyToken(jwtToken);
             //判断是否存在权限
-            StringBuffer stringBuffer=null;
-            if(info.containsKey("authorities")){
-                stringBuffer= new StringBuffer();
-                JSONArray jsonArray=JSONObject.parseArray(info.getString("authorities"));
-                if(jsonArray!=null&&jsonArray.size()>0){
-                    for(int i=0;i<jsonArray.size();i++){
-                        JSONObject o=(JSONObject)jsonArray.get(i);
+            StringBuffer stringBuffer = null;
+            if (info.containsKey("authorities")) {
+                stringBuffer = new StringBuffer();
+                JSONArray jsonArray = JSONObject.parseArray(info.getString("authorities"));
+                if (jsonArray != null && jsonArray.size() > 0) {
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JSONObject o = (JSONObject) jsonArray.get(i);
                         stringBuffer.append("ROLE_").append(o.getString("authority")).append(",");
 
                     }
                 }
-                stringBuffer.deleteCharAt(stringBuffer.length()-1);
+                stringBuffer.deleteCharAt(stringBuffer.length() - 1);
             }
             //存在用户名
-            if(info.containsKey("username")){
+            if (info.containsKey("username")) {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(info.getString("username"), null, AuthorityUtils.commaSeparatedStringToAuthorityList(stringBuffer.toString()));
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));

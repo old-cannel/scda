@@ -1,6 +1,8 @@
 package com.scda.common.exception;
 
+import com.scda.common.response.ResponseEnum;
 import com.scda.common.response.ResponseVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +34,9 @@ public class GlobalErrorController implements ErrorController {
                 if (e == null) {
                     return ResponseVo.fail(statusCode);
                 } else {
+                   if(StringUtils.isNotBlank(e.getMessage())){
+                       return new ResponseVo(ResponseEnum.findCode(e.getMessage()),e.getMessage(),e.getMessage());
+                   }
                     return ResponseVo.fail(e.getMessage());
                 }
         }

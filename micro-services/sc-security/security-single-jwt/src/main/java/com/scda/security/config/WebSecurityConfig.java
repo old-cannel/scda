@@ -8,7 +8,6 @@ import com.scda.security.handler.AjaxAuthenticationSuccessHandler;
 import com.scda.security.handler.AjaxLogoutSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,6 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  */
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    //请求头令牌标识
+    public static String TOKEN_HEADER="Authorization";
+
     //登录的url
     public static String LOGIN_URL = "/loginjwt";
     //退出登录的url
@@ -51,16 +53,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                // 允许对于网站静态资源的无授权访问
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/",
-                        "/*.html",
-                        "/favicon.ico",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                ).permitAll()
                 .antMatchers("/goods/**").permitAll()
                 .antMatchers("/order/**").hasRole("user")
                 //其他任何请求都要认证授权
