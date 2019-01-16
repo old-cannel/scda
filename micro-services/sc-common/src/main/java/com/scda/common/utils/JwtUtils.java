@@ -23,7 +23,7 @@ public class JwtUtils {
      */
     private static String secretKey = "scdascdascdascdascdascdascdascdascdascda";
 
-    //token有效期(分钟) ，默认值4小时
+    //token最短有效期（默认值2小时），最长有效期是最短有效期的2倍
     public static int TIME_OUT = 60 * 60 * 2;
 
     private static MacSigner signer;
@@ -52,6 +52,7 @@ public class JwtUtils {
     public static String tokenWithTime(JSONObject json) {
         Map<String, String> map = new HashMap<>();
         map.put("validTime", String.valueOf(DateUtil.offsetSecond(new Date(), TIME_OUT*2).getTime()));
+        map.put("timeOut",String.valueOf(DateUtil.offsetSecond(new Date(), TIME_OUT).getTime()));
         Jwt jwt = JwtHelper.encode(json.toJSONString(), signer, map);
         return jwt.getEncoded();
     }
