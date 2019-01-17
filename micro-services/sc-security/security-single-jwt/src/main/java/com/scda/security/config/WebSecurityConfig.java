@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //取消session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-//                jwt模式没有跨域问题
+//                开启跨域
                 .csrf().disable()
                 // 禁用headers缓存
                 .headers().cacheControl()
