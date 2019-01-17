@@ -1,28 +1,31 @@
-package com.scda.business.common.entity.demo;
+package com.scda.security.vo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.scda.common.db.entity.BaseFieldVo;
-import com.scda.common.valid.IsNumber;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @Auther: liuqi
- * @Date: 2018/11/13 14:49
- * @Description:
+ * @Date: 2019/1/17 15:58
+ * @Description: 角色
  */
-@TableName("demo")
+@TableName("sys_role")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DemoVo extends BaseFieldVo {
-    @NotBlank(message = "编码不能为空")
-    @IsNumber(message = "编码必须为数字")
+public class SysRoleVo extends BaseFieldVo {
+    //编码
     private String code;
-    @Length(min = 3,message = "名称长度不能小于3")
+
+    @NotBlank(message = "角色名称不能为空")
+    @Length(max = 30, message = "角色名称长度不能大于30")
     private String name;
+
+    @Length(max = 256, message = "备注长度不能大于256")
+    private String remark;
+
 }

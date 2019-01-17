@@ -1,10 +1,13 @@
 drop table if exists demo;
+
 drop index Index_2 on sys_user;
 
 drop table if exists sys_user;
+
 drop index Index_3 on sys_user_role;
 
 drop table if exists sys_user_role;
+
 drop index Index_4 on sys_role;
 
 drop table if exists sys_role;
@@ -12,13 +15,14 @@ drop table if exists sys_role;
 drop index Index_6 on sys_role_menu;
 
 drop table if exists sys_role_menu;
+
 drop index Index_5 on sys_menu;
 
 drop table if exists sys_menu;
+
 drop index Index_1 on sys_organization;
 
 drop table if exists sys_organization;
-
 
 /*==============================================================*/
 /* Table: demo                                                  */
@@ -26,10 +30,10 @@ drop table if exists sys_organization;
 create table demo
 (
    id                   char(32) not null comment 'id',
-   code                 varchar(64),
+   code                 varchar(100) not null comment '编码',
    name                 varchar(100),
    primary key (id)
-,   
+   ,   
    del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
    add_time datetime NOT NULL COMMENT '创建时间',
    add_user_code varchar(64) NOT NULL COMMENT '创建者',
@@ -46,15 +50,17 @@ create table demo
 create table sys_user
 (
    id                   char(32) not null comment 'id',
+   code                 varchar(100) not null comment '编码',
    user_name            varchar(50) not null comment '用户名',
-   src_org_code         char(32) comment '所属机构编码',
    password             varchar(100) not null comment '密码',
    contact              varchar(20) comment '联系方式',
    work_num             varchar(20) not null comment '工号',
    full_name            varchar(20) comment '姓名',
-   status               char(1) not null default '1' comment '状态,0禁用，1启用',
-   super_user           char(1) not null default '0' comment '是否超级用户，0否，1是',
    remark               varchar(250) comment '备注',
+   src_org_code         char(32) comment '所属机构编码',
+   non_expired          boolean default true comment '没有过期',
+   enabled              boolean default true comment '启用',
+   non_locked           boolean default true comment '没有锁定',
    primary key (id)
    ,   
    del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
@@ -75,6 +81,8 @@ create unique index Index_2 on sys_user
 (
    work_num
 );
+
+
 
 /*==============================================================*/
 /* Table: sys_user_role                                         */
@@ -104,12 +112,15 @@ create index Index_3 on sys_user_role
 (
    id
 );
+
+
 /*==============================================================*/
 /* Table: sys_role                                              */
 /*==============================================================*/
 create table sys_role
 (
    id                   char(32) not null comment 'id',
+   code                 varchar(100) not null comment '编码',
    name                 varchar(30) not null comment '角色名称',
    status               char(1) not null default '1' comment '状态,0禁用，1启用',
    remark               varchar(256) comment '备注',
@@ -133,6 +144,7 @@ create unique index Index_4 on sys_role
 (
    name
 );
+
 /*==============================================================*/
 /* Table: sys_role_menu                                         */
 /*==============================================================*/
@@ -162,23 +174,25 @@ create index Index_6 on sys_role_menu
    id
 );
 
+
 /*==============================================================*/
 /* Table: sys_menu                                              */
 /*==============================================================*/
 create table sys_menu
 (
    id                   char(32) not null comment 'id',
+   code                 varchar(100) not null comment '编码',
    name                 varchar(30) not null comment '名称',
    remark               varchar(256) comment '备注',
    url                  varchar(256) comment '链接',
    deep                 char(1) not null default '1' comment '深度,默认是1',
-   code                 varchar(20) not null comment '编码',
    sup_code             varchar(100) comment '上级编码',
    sup_name             varchar(30) comment '上级名称',
-   sup_codes            varchar(350) comment '上级编码集合',
+   sup_codes            varchar(1000) comment '上级编码集合',
    sup_names            varchar(300) comment '上级名称集合',
    status               char(1) not null default '1' comment '状态,0禁用，1启用',
    sort                 int default 10000 comment '排序',
+   type                 char(1) comment '类型,0菜单,1api',
    primary key (id)
    ,   
    del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',
@@ -199,20 +213,22 @@ create unique index Index_5 on sys_menu
 (
    code
 );
+
+
 /*==============================================================*/
 /* Table: sys_organization                                      */
 /*==============================================================*/
 create table sys_organization
 (
    id                   char(32) not null comment 'id',
+   code                 varchar(100) not null comment '编码',
    name                 varchar(30) not null comment '名称',
    remark               varchar(256) comment '备注',
    src_area_id          char(32) comment '归属区域',
    org_type             char(1) not null comment '机构类型，0公司，1部门，2组，3其他',
-   code                 varchar(20) not null comment '机构编码',
-   sup_code             varchar(20) comment '上级机构编码',
+   sup_code             varchar(100) comment '上级机构编码',
    sup_name             varchar(30) comment '上级机构名称',
-   sup_codes            varchar(350) comment '上级结构编码集合',
+   sup_codes            varchar(1000) comment '上级结构编码集合',
    sup_names            varchar(300) comment '上级机构名称集合',
    primary key (id)
    ,   
@@ -234,4 +250,3 @@ create unique index Index_1 on sys_organization
 (
    code
 );
-
