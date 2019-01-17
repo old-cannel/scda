@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, Serializable 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("登陆用户名：{}", username);
 
-        // todo 这个地方可以从数据库获取
+        //这个地方可以从数据库获取
         String password = "123456";
         // 这里查询该账户是否过期
         int accountNonExpired = 1;
