@@ -8,6 +8,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.List;
 
 /**
  * @Auther: liuqi
@@ -56,5 +60,13 @@ public class SysUserVo extends BaseFieldVo {
     //没有锁定
     private int nonLocked;
 
+    @TableField(exist = false)
+    private List<GrantedAuthority> authorities;
 
+    public static User copy(SysUserVo sysUserVo) {
+        return new User(sysUserVo.getUserName(), sysUserVo.getPassword(),
+                sysUserVo.getEnabled() == 1, sysUserVo.getNonExpired() == 1,
+                true, sysUserVo.getNonLocked() == 1, sysUserVo.getAuthorities()
+        );
+    }
 }

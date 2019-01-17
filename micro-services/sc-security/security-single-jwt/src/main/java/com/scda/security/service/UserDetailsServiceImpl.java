@@ -1,5 +1,6 @@
 package com.scda.security.service;
 
+import com.scda.security.vo.SysUserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -25,23 +26,27 @@ public class UserDetailsServiceImpl implements UserDetailsService, Serializable 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("登陆用户名：{}", username);
 
-        // 这里查询该账户认证是否过期，登录的时候默认是没有过期的
-        boolean credentialsNonExpired = true;
-
         // todo 这个地方可以从数据库获取
         String password = "123456";
         // 这里查询该账户是否过期
-        boolean accountNonExpired = true;
+        int accountNonExpired = 1;
         // 这里查询该账户被启用
-        boolean enabled = true;
-        // 查询该账户是否被锁定，假设没有被锁定
-        boolean accountNonLocked = true;
+        int enabled = 1;
+
+        int nonLocked=1;
+
         //角色
         List<GrantedAuthority> grantedAuthorityList=AuthorityUtils.commaSeparatedStringToAuthorityList("user,finance");
-        // 关于密码的加密，应该是在创建用户的时候进行的，这里仅仅是举例模拟
-        return new User(username, password,
-                enabled, accountNonExpired,
-                credentialsNonExpired, accountNonLocked,grantedAuthorityList
-                );
+
+        SysUserVo sysUserVo=new SysUserVo();
+        sysUserVo.setUserName(username);
+        sysUserVo.setPassword(password);
+        sysUserVo.setEnabled(enabled);
+        sysUserVo.setNonExpired(accountNonExpired);
+        sysUserVo.setNonLocked(nonLocked);
+        sysUserVo.setAuthorities(grantedAuthorityList);
+
+        return SysUserVo.copy(sysUserVo);
+
     }
 }
