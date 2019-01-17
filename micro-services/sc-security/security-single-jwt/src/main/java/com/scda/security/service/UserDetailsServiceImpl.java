@@ -46,7 +46,12 @@ public class UserDetailsServiceImpl implements UserDetailsService, Serializable 
         sysUserVo.setNonLocked(nonLocked);
         sysUserVo.setAuthorities(grantedAuthorityList);
 
-        return SysUserVo.copy(sysUserVo);
+        /**系统扩展字段**/
+        sysUserVo.setWorkNum("002");
+        sysUserVo.setCode("20190117000001");
+        sysUserVo.setFullName("系统管理员");
+
+        return sysUserVo;
 
     }
 }

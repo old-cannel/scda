@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
@@ -22,9 +22,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysUserVo extends BaseFieldVo {
+public class SysUserVo extends BaseFieldVo implements UserDetails {
     //编码
     private String code;
+
+
 
     @NotBlank(message = "用户名不能为空")
     @Length(max = 50, message = "用户名长度不能大于50")
@@ -63,10 +65,36 @@ public class SysUserVo extends BaseFieldVo {
     @TableField(exist = false)
     private List<GrantedAuthority> authorities;
 
-    public static User copy(SysUserVo sysUserVo) {
-        return new User(sysUserVo.getUserName(), sysUserVo.getPassword(),
-                sysUserVo.getEnabled() == 1, sysUserVo.getNonExpired() == 1,
-                true, sysUserVo.getNonLocked() == 1, sysUserVo.getAuthorities()
-        );
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    @Override
+    public String getUsername() {
+        return getUserName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return getNonExpired() == 1;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return getNonLocked() == 1;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return getEnabled() == 1;
     }
 }
