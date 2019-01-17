@@ -17,5 +17,7 @@
         sc-security\security-single-jwt\src\main\java\com\scda\security\service\UserDetailsServiceImpl.java
     3.修改从数据库获取权限资源
         sc-security\security-single-jwt\src\main\java\com\scda\security\vote\MyRoleVoter.java
+    4.修改安全配置文件(可选)  
+        sc-security\security-single-jwt\src\main\java\com\scda\security\config\WebSecurityConfig.java 
 #分布式工程-jwt认证+授权（独立服务）
 #分布式工程-oauth2认证+授权（独立服务）
