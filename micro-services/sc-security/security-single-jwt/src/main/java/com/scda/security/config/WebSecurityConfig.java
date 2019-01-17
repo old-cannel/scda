@@ -6,12 +6,23 @@ import com.scda.security.handler.AjaxAccessDeniedHandler;
 import com.scda.security.handler.AjaxAuthenticationFailureHandler;
 import com.scda.security.handler.AjaxAuthenticationSuccessHandler;
 import com.scda.security.handler.AjaxLogoutSuccessHandler;
+import com.scda.security.vote.MyRoleVoter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.AuthenticatedVoter;
+import org.springframework.security.access.vote.RoleVoter;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Auther: liuqi
@@ -21,7 +32,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //请求头令牌标识
-    public static String TOKEN_HEADER="Authorization";
+    public static String TOKEN_HEADER = "Authorization";
 
     //登录的url
     public static String LOGIN_URL = "/loginjwt";
@@ -52,12 +63,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //取消session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/goods/**").permitAll()
-                .antMatchers("/order/**").hasRole("user")
-                //其他任何请求都要认证授权
-                .anyRequest().authenticated()
-                .and()
+//                jwt模式没有跨域问题
+                .csrf().disable()
+                // 禁用headers缓存
+                .headers().cacheControl()
+                .and().and()
+                .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 //自定义登录url
                 .formLogin().loginProcessingUrl(LOGIN_URL)
                 .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).permitAll()
@@ -66,16 +77,34 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutUrl(LOGOUT_URL)
                 .logoutSuccessHandler(logoutSuccessHandler).permitAll()
                 .and()
-                .csrf().disable();
+                //用来解决匿名用户访问无权限资源时的异常
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+                // 用来解决认证过的用户访问无权限资源时的异常
+                .accessDeniedHandler(accessDeniedHandler)
+                .and()
+//                资源权限配置
+                .authorizeRequests()
+//                这里配置不需要权限的资源
+                .antMatchers("/goods/**").permitAll()
+                //其他任何请求都要权限验证
+                .anyRequest().authenticated()
+                .accessDecisionManager(accessDecisionManager())
 
-        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-//用来解决匿名用户访问无权限资源时的异常
-        http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-// 用来解决认证过的用户访问无权限资源时的异常
-                .accessDeniedHandler(accessDeniedHandler);
-        // 禁用headers缓存
-        http.headers().cacheControl();
+//                .antMatchers("/order/**").hasRole("user")
+        ;
 
+    }
+
+    @Bean
+    public AccessDecisionManager accessDecisionManager() {
+        List<AccessDecisionVoter<? extends Object>> decisionVoters
+                = Arrays.asList(
+                new WebExpressionVoter(),
+//                自定义的权限校验
+                new MyRoleVoter(),
+                new RoleVoter(),
+                new AuthenticatedVoter());
+        return new UnanimousBased(decisionVoters);
     }
 
 }
