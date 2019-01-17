@@ -89,8 +89,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //其他任何请求都要权限验证
                 .anyRequest().authenticated()
                 .accessDecisionManager(accessDecisionManager())
-
-//                .antMatchers("/order/**").hasRole("user")
         ;
 
     }
