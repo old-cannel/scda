@@ -15,9 +15,9 @@
          </dependency>
     2.修改用户登录从数据库获取用户信息
         sc-security\security-single-jwt\src\main\java\com\scda\security\service\UserDetailsServiceImpl.java
-    3.修改从数据库获取权限资源
+    3.修改从数据库获取权限资源，权限验证逻辑也可以在这里面修改
         sc-security\security-single-jwt\src\main\java\com\scda\security\vote\MyRoleVoter.java
-    4.修改安全配置文件(可选)  
+    4.修改安全配置文件 
         sc-security\security-single-jwt\src\main\java\com\scda\security\config\WebSecurityConfig.java 
 #分布式工程-jwt认证+授权（独立服务）
 #分布式工程-oauth2认证+授权（独立服务）
