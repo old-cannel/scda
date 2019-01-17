@@ -27,7 +27,6 @@ public class SysUserVo extends BaseFieldVo implements UserDetails {
     private String code;
 
 
-
     @NotBlank(message = "用户名不能为空")
     @Length(max = 50, message = "用户名长度不能大于50")
     private String userName;
@@ -73,6 +72,7 @@ public class SysUserVo extends BaseFieldVo implements UserDetails {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
     @Override
     public String getUsername() {
         return getUserName();
