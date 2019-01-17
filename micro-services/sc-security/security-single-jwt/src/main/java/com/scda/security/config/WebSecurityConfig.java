@@ -84,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
 //                资源权限配置
                 .authorizeRequests()
-//                这里配置不需要权限的资源
+//                这里配置不需要登录和权限的资源
                 .antMatchers("/goods/**").permitAll()
                 //其他任何请求都要权限验证
                 .anyRequest().authenticated()
