@@ -2,6 +2,7 @@ package com.scda.security.handler;
 
 import com.alibaba.fastjson.JSONObject;
 import com.scda.common.response.ResponseVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
@@ -16,10 +17,12 @@ import java.io.IOException;
  * @Description: 登录失败
  */
 @Component
+@Slf4j
 public class AjaxAuthenticationFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+       log.error("用户登录失败，异常：{}", exception.getMessage());
         response.setContentType("application/json; charset=utf-8");
-        response.getWriter().write(JSONObject.toJSONString(ResponseVo.fail("用户名或密码错误")));
+        response.getWriter().write(JSONObject.toJSONString(ResponseVo.fail(exception.getMessage())));
     }
 }

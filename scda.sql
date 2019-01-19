@@ -58,9 +58,9 @@ create table sys_user
    full_name            varchar(20) comment '姓名',
    remark               varchar(250) comment '备注',
    src_org_code         char(32) comment '所属机构编码',
-   non_expired          boolean default true comment '没有过期',
-   enabled              boolean default true comment '启用',
-   non_locked           boolean default true comment '没有锁定',
+   non_expired          bit default 1 comment '没有过期',
+   enabled              bit default 1 comment '启用',
+   non_locked           bit default 1 comment '没有锁定',
    primary key (id)
    ,   
    del_flag char(1)  NOT NULL COMMENT '删除标识(1:已删除,0:正常)',

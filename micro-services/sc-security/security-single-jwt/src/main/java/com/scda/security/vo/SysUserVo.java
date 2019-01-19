@@ -55,11 +55,11 @@ public class SysUserVo extends BaseFieldVo implements UserDetails {
     //所属机构编码
     private String srcOrgCode;
     //没有过期
-    private int nonExpired;
+    private boolean nonExpired;
     //启用
-    private int enabled;
+    private boolean enabled;
     //没有锁定
-    private int nonLocked;
+    private boolean nonLocked;
 
     @TableField(exist = false)
     private List<GrantedAuthority> authorities;
@@ -80,12 +80,12 @@ public class SysUserVo extends BaseFieldVo implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return getNonExpired() == 1;
+        return isNonExpired() ;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return getNonLocked() == 1;
+        return isNonLocked() ;
     }
 
     @Override
@@ -93,8 +93,5 @@ public class SysUserVo extends BaseFieldVo implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return getEnabled() == 1;
-    }
+
 }

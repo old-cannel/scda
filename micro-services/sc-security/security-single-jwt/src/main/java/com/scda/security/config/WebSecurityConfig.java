@@ -56,6 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
+    @Autowired
+    private MyRoleVoter myRoleVoter;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -99,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 = Arrays.asList(
                 new WebExpressionVoter(),
 //                自定义的权限校验
-                new MyRoleVoter(),
+                myRoleVoter,
                 new RoleVoter(),
                 new AuthenticatedVoter());
         return new UnanimousBased(decisionVoters);

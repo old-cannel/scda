@@ -1,5 +1,6 @@
 package com.scda.security.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.scda.common.db.entity.BaseFieldVo;
 import lombok.AllArgsConstructor;
@@ -16,10 +17,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SysRoleMenuVo extends BaseFieldVo {
+
+
     //角色id
     private String roleId;
 
     //菜单id
     private String menuId;
+
+
+    //    菜单url
+    @TableField(exist = false)
+    private String url;
+
 
 }

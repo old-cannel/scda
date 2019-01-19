@@ -38,9 +38,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             //解析验证token,获取用户名和权限
             JSONObject info = tokenJwtRedisUtil.decodeVerifyToken(jwtToken);
             //判断是否存在权限
-            StringBuffer stringBuffer = null;
+            StringBuffer stringBuffer = new StringBuffer();;
             if (info.containsKey("authorities")) {
-                stringBuffer = new StringBuffer();
                 JSONArray jsonArray = JSONObject.parseArray(info.getString("authorities"));
                 if (jsonArray != null && jsonArray.size() > 0) {
                     for (int i = 0; i < jsonArray.size(); i++) {
