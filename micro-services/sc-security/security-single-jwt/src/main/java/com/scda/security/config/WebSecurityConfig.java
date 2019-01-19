@@ -6,6 +6,7 @@ import com.scda.security.handler.AjaxAccessDeniedHandler;
 import com.scda.security.handler.AjaxAuthenticationFailureHandler;
 import com.scda.security.handler.AjaxAuthenticationSuccessHandler;
 import com.scda.security.handler.AjaxLogoutSuccessHandler;
+import com.scda.security.service.UserDetailsServiceImpl;
 import com.scda.security.vote.MyRoleVoter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +16,11 @@ import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.AuthenticatedVoter;
 import org.springframework.security.access.vote.RoleVoter;
 import org.springframework.security.access.vote.UnanimousBased;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -58,6 +61,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyRoleVoter myRoleVoter;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsService;
+
+    /**
+     * 配置密码加密验证
+     * @param builder
+     * @throws Exception
+     * 配置后会对请求的密码自动加密然后与系统内的密码进行验证
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
+        builder.userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -108,4 +126,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new UnanimousBased(decisionVoters);
     }
 
+    /**
+     * 密码加密
+     */
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }
