@@ -5,17 +5,17 @@ spring:
     config:
       label: master
       discovery:
-        enabled: false
+        enabled: true
         service-id: sc-config
       #uri: http://localhost:8762
       #      username: scda
       #      password: scda
       profile: ${PROFILE:dev}
-      enabled: false
+      enabled: true
 eureka:
   client:
     serviceUrl:
       #      defaultZone: http://scda:scda@${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
       defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
-    enabled: false
+    enabled: true
 debug: true

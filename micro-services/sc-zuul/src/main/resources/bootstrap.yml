@@ -16,3 +16,5 @@ eureka:
     serviceUrl:
       #      defaultZone: http://scda:scda@${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
       defaultZone: http://${EUREKA_HOST:localhost}:${EUREKA_PORT:8761}/eureka/
+
+debug: true
