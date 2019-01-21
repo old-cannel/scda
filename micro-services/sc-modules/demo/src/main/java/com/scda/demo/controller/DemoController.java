@@ -1,6 +1,6 @@
 package com.scda.demo.controller;
 
-import com.scda.business.common.entity.demo.DemoVo;
+import com.scda.business.common.vo.demo.DemoVo;
 import com.scda.common.db.page.BasePage;
 import com.scda.common.response.ResponseVo;
 import com.scda.demo.service.DemoService;

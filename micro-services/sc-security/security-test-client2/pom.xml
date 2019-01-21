@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>sc-security</artifactId>
+        <groupId>com.scda.sc-security</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>security-test-client2</artifactId>
+    <description>安全模块测试客户端2</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.scda.sc-security</groupId>
+            <artifactId>security-single-jwt</artifactId>
+            <version>${project_version}</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

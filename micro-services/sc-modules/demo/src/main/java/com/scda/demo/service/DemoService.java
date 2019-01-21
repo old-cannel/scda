@@ -3,7 +3,7 @@ package com.scda.demo.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.scda.business.common.entity.demo.DemoVo;
+import com.scda.business.common.vo.demo.DemoVo;
 import com.scda.common.db.util.BaseFieldValueUtils;
 import com.scda.common.utils.IdUtils;
 import com.scda.demo.mapper.DemoMapper;

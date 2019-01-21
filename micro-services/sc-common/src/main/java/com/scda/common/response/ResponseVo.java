@@ -147,4 +147,20 @@ public class ResponseVo implements Serializable {
 
         return responseVo;
     }
+
+    /**
+     * 拒绝访问，没有权限
+     * @param result
+     * @return
+     */
+    public static ResponseVo accessDenied(Object result) {
+        ResponseVo responseVo = new ResponseVo();
+        responseVo.setCode(ResponseEnum.ACCESS_DENIED.getCode());
+        responseVo.setMsg(ResponseEnum.ACCESS_DENIED.getMessage());
+        if (result != null) {
+            responseVo.setResult((Serializable) result);
+        }
+
+        return responseVo;
+    }
 }

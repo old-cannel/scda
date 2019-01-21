@@ -8,44 +8,15 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>com.scda.sc-security</groupId>
     <artifactId>sc-security</artifactId>
+    <packaging>pom</packaging>
+    <description>认证授权模块</description>
+    <modules>
+        <module>security-single-jwt</module>
+        <module>security-test-client1</module>
+        <module>security-test-client2</module>
+    </modules>
 
-
-    <dependencies>
-        <!-- 注意是starter,自动配置 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-        <!-- 不是starter,手动配置 -->
-        <dependency>
-            <groupId>org.springframework.security.oauth</groupId>
-            <artifactId>spring-security-oauth2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!-- 将token存储在redis中 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.scda</groupId>
-            <artifactId>sc-common</artifactId>
-            <version>${project_version}</version>
-        </dependency>
-
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
