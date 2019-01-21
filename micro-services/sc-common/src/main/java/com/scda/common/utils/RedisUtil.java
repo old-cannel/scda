@@ -22,7 +22,15 @@ public class RedisUtil {
     //这个注入是RedisConfig重写的，如果没有重写请使用RedisTemplate<Object, Object>
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-// =============================common============================
+
+    public RedisTemplate<String, Object> getRedisTemplate() {
+        return redisTemplate;
+    }
+
+    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+    // =============================common============================
 
     /**
      * 指定缓存失效时间
@@ -317,7 +325,7 @@ public class RedisUtil {
      */
     public Set<Object> sGet(String key) {
         try {
-            return redisTemplate.opsForSet().members(key);
+            return (Set<Object>) redisTemplate.opsForSet().members(key);
         } catch (Exception e) {
             log.error("redis Set缓存放入异常：{}", e.getMessage());
             return null;
