@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
  * 基于jwt、redis实现token会话过期、刷新
  *  * 会话流程
  *  * 1.用户客户端登录成功，后台服务签发token
- *  * 2.客户端收到token,用Base64进行解码jwt token的.第一部分，记录timeOut时间戳
- *  * 3.客户端发送请求前判断timeOut时间戳跟当前时间比较，如果当前时间大于timeOut，通过传入原token获取新token,再用新token获取发送请求
- *  * 4.如果需要对废弃的token进行回收，可以服务端可以将token放到redis里面，有效期设置为JwtUtils.TIME_OUT，每次刷新token，删除redis对应的token,会话判断的时候先判断redis对应的token是否存在
- *  * 5.以上如果客户端请求不需要会话的请求不要带令牌请求头请求，否则会照样进行登录认证
+ *  * 2.客户端收到token,用Base64进行解码jwt token的.第一部分，记录timeOut时间戳（客户端）
+ *  * 3.客户端发送请求前判断timeOut时间戳跟当前时间比较，如果当前时间大于timeOut，通过传入原token获取新token,再用新token获取发送请求（客户端）
+ *  * 4.如果需要对废弃的token进行回收，服务端可以将token放到redis里面，有效期设置为JwtUtils.TIME_OUT，每次刷新token，删除redis对应的token,会话判断的时候先判断redis对应的token是否存在
+ *  * 5.以上如果客户端请求不需要会话的请求不要带令牌请求头请求，否则会照样进行登录认证（客户端）
  */
 @Component
 public class TokenJwtRedisUtil {

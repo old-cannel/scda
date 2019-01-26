@@ -17,12 +17,13 @@
         sc-security\security-single-jwt\src\main\java\com\scda\security\service\MySecurityService.java  
         方法：loadByUserName(String userName)  
               loadByUserId(String userId)  
-    3.修改从数据库获取权限资源，权限验证逻辑也可以在这里面修改  
+    3.修改从数据库获取权限资源  
         sc-security\security-single-jwt\src\main\java\com\scda\security\service\MySecurityService.java  
         方法：List<SysRoleMenuVo> loadAllRroleMenuIds()  
     4.修改安全配置文件(可选,存在不需要登录的资源就需要配置)   
         sc-security\security-single-jwt\src\main\java\com\scda\security\config\WebSecurityConfig.java  
     5.关于密码加密(该方法相同密码加密后值会不一样，但不影响校验)
-        BCryptPasswordEncoder类中方法：encode("your password")
-#分布式工程-jwt认证+授权（独立服务）
-#分布式工程-oauth2认证+授权（独立服务）
+        BCryptPasswordEncoder类中方法：encode("your password")  
+#分布式工程-jwt认证+授权（独立服务） 
+     
+#分布式工程-oauth2认证+授权（独立服务）  

@@ -1,19 +1,14 @@
 package com.scda.security.service;
 
-import com.scda.common.utils.RedisUtil;
-import com.scda.security.vo.SysRoleMenuVo;
 import com.scda.security.vo.SysUserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
@@ -35,11 +30,11 @@ public class UserDetailsServiceImpl implements UserDetailsService, Serializable 
         log.debug("登陆用户名：{}", username);
 //获取用户信息
         SysUserVo sysUserVo = mySecurityService.loadByUserName(username);
-       if(sysUserVo==null|| StringUtils.isBlank(sysUserVo.getId())){
-           throw new UsernameNotFoundException("用户名不存在");
-       }
-        String roleIds=mySecurityService.loadByUserId(sysUserVo.getId());
-        if(StringUtils.isNotBlank(roleIds)){
+        if (sysUserVo == null || StringUtils.isBlank(sysUserVo.getId())) {
+            throw new UsernameNotFoundException("用户名不存在");
+        }
+        String roleIds = mySecurityService.loadByUserId(sysUserVo.getId());
+        if (StringUtils.isNotBlank(roleIds)) {
             //角色
             List<GrantedAuthority> grantedAuthorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(roleIds);
             sysUserVo.setAuthorities(grantedAuthorityList);
