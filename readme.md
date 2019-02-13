@@ -86,7 +86,7 @@
             提供root对象   
         condition 参数满足条件才放到缓存  
             支持EL表达式  
-         unless 结果满足条件才能放到缓存  
+         unless 结果满足条件不放到缓存  
             支持EL表达式   
         具体详情参见https://docs.spring.io/spring/docs/4.3.22.RELEASE/spring-framework-reference/htmlsingle/#cache  
 #动态多数据源使用和关闭
