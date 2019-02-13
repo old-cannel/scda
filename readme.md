@@ -76,7 +76,7 @@
         micro-services\sc-common\src\main\java\com\scda\common\config\CacheConfig.java  
         中通过是否注释掉@EnableCaching来控制  
     2.使用  
-        2.1 @Cacheable 读取，如果缓存没有就执行业务代码（结果非空就放到缓存），如果有就直接缓存取  
+        2.1 @Cacheable 读取，如果缓存没有就执行业务代码（默认是结果非空就放到缓存），如果有就直接缓存取  
         2.2 @CachePut 手动更新，手动触发更新缓存内容  
         2.3 @CacheEvict 手动删除  
     3.注解常用参数说明  
@@ -84,8 +84,10 @@
         key 缓存key  
             支持EL表达式，使用方法参数时我们可以直接使用“#参数名”或者“#p参数index”,例如参数只有id，key="#id"或key="#p0"  
             提供root对象   
-        condition 满足条件才放到缓存  
+        condition 参数满足条件才放到缓存  
             支持EL表达式  
+         unless 结果满足条件才能放到缓存  
+            支持EL表达式   
         具体详情参见https://docs.spring.io/spring/docs/4.3.22.RELEASE/spring-framework-reference/htmlsingle/#cache  
 #动态多数据源使用和关闭
     1. 关闭（默认）  

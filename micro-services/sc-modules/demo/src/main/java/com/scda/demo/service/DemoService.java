@@ -23,7 +23,7 @@ public class DemoService {
     @Autowired
     private DemoMapper demoMapper;
 
-    @Cacheable(value = "scda", key="#root.targetClass+#root.methodName")
+    @Cacheable(value = "scda", key = "#root.targetClass+#root.methodName")
     public DemoVo selectById() {
 //        return "Hello Service!";
         return demoMapper.selectById("1");
@@ -37,40 +37,43 @@ public class DemoService {
 
     /**
      * 新增
+     *
      * @param demoVo
      * @return
      */
     @Transactional(readOnly = false)
     public int insert(DemoVo demoVo) {
         demoVo.setId(IdUtils.getUUID());
-        BaseFieldValueUtils.setCommonField4Insert(demoVo,"demo","001");
+        BaseFieldValueUtils.setCommonField4Insert(demoVo, "demo", "001");
         return demoMapper.insert(demoVo);
     }
 
     /**
      * 更新
+     *
      * @param demoVo
      * @return
      */
     @Transactional(readOnly = false)
     public int update(DemoVo demoVo) {
-        BaseFieldValueUtils.setCommonField4Update(demoVo,"demo","003");
+        BaseFieldValueUtils.setCommonField4Update(demoVo, "demo", "003");
         UpdateWrapper updateWrapper = new UpdateWrapper();
-        DemoVo dv=new DemoVo();
+        DemoVo dv = new DemoVo();
         dv.setCode(demoVo.getCode());
         updateWrapper.setEntity(dv);
-        return  demoMapper.update(demoVo,updateWrapper);
+        return demoMapper.update(demoVo, updateWrapper);
     }
 
     /**
      * 删除
+     *
      * @param code
      * @return
      */
     @Transactional(readOnly = false)
-    public int delete(String code){
-        QueryWrapper queryWrapper=new QueryWrapper();
-        DemoVo dv=new DemoVo();
+    public int delete(String code) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        DemoVo dv = new DemoVo();
         dv.setCode(code);
         queryWrapper.setEntity(dv);
         return demoMapper.delete(queryWrapper);
