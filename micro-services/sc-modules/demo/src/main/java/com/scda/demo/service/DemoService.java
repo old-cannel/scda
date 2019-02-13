@@ -8,6 +8,7 @@ import com.scda.common.db.util.BaseFieldValueUtils;
 import com.scda.common.utils.IdUtils;
 import com.scda.demo.mapper.DemoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class DemoService {
     @Autowired
     private DemoMapper demoMapper;
 
+    @Cacheable(value = "scda", key="#root.targetClass+#root.methodName")
     public DemoVo selectById() {
 //        return "Hello Service!";
         return demoMapper.selectById("1");
