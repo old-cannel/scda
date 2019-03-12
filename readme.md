@@ -8,9 +8,8 @@
     sc-security 认证授权模块（框架）  
     sc-eureka 注册和发现服务（框架）  
     sc-zuul 网关（框架）  
-    sc-modules 业务模块  
-        common-business 公共业务（业务）  
-        demo 示例模块（新增模块都要依赖公共业务）  
+    sc-modules 业务模块（业务，详情见micro-services\sc-modules\readme.md）  
+
 
 #微服务框架下应用启动顺序
     运行注册发现 sc-eureka  

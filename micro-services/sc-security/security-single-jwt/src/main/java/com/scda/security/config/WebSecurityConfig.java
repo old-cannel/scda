@@ -107,6 +107,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 //                这里配置不需要登录和权限的资源
                 .antMatchers("/goods/**").permitAll()
+                .antMatchers("/live/**").permitAll()
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 //其他任何请求都要权限验证
                 .anyRequest().authenticated()
                 .accessDecisionManager(accessDecisionManager())

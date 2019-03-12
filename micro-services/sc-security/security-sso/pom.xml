@@ -9,8 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>security-test-client2</artifactId>
-    <description>安全模块测试客户端2</description>
+    <artifactId>security-sso</artifactId>
     <dependencies>
 
         <dependency>
@@ -21,8 +20,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>

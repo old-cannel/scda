@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>登录</title>
+    <script src="/websocket/js/jquery-3.3.1.js"></script>
+    <script src="/websocket/js/jquery.cookie.js"></script>
+    <script type="text/javascript">
+        function login(){
+            var username=$("#userName").val();
+            var password=$("#password").val();
+            var data={password:password,username:username};
+            $.ajax({
+                type: "POST",
+                url: "/websocket/loginjwt",
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                data: data,
+                dataType: "json",
+                success: function (result) {
+                    if(result.code==10000){
+                        $.cookie('Authorization', result.result);
+                        window.location.href="/websocket/live";
+                    }else{
+                        alert(result.msg);
+                    }
+                },
+                error: function (result) {
+                    alert(result.msg);
+                }
+            });
+        }
+    </script>
+</head>
+<body ng-app="app" ng-controller="MainController">
+<h1>欢迎登录</h1>
+<!--action="/websocket/loginjwt"-->
+<form>
+    <p>username: <input id="userName" type="text" name="username" value="sale"/></p>
+    <p>password: <input id="password" type="password" name="password" value="123456" /></p>
+    <input  onclick="login()" type="button" value="Submit" />
+</form>
+</body>
+</html>
