@@ -2,11 +2,10 @@
 //websocket 服务地址
 const
     //socker 地址
-    websocketUrl = 'ws://localhost:2019/chat/websocket',
+    websocketUrl = 'wss://10.110.1.11:2019/websocket/chat/websocket',
     //我的朋友
-    myFriendsUrl = '/myFriends',
-    //我的用户名
-    myNameUrl = '/myName';
+    myFriendsUrl = '/websocket/myfriends';
+
 
 let
     //客户端
@@ -33,12 +32,29 @@ $(function () {
 
      localVideo = document.getElementById("localVideo");
      remoteVideo = document.getElementById("remoteVideo");
+//获取好友列表
+    $.ajax({
+        type: "POST",
+        url: myFriendsUrl,
+        headers: {
+            Authorization: $.cookie('Authorization')
+        },
+        dataType: "json",
+        success: function (result) {
+            if(result.code==10000){
+                myFriendsCallBack(result);
+                //建立长连接
+                connet();
+            }else{
+                alert(result.msg);
+            }
+        },
+        error: function (result) {
+            alert(result.msg);
+        }
+    });
 
-    //好友、用户信息、订阅自己的消息通道
-    myFriendsCallBack(null);
-    myNameCallBack(null);
-   /* $.get(myFriendsUrl, myFriendsCallBack);
-    $.get(myNameUrl, myNameCallBack);*/
+
 });
 /**
  * 本地视频加载
@@ -296,26 +312,17 @@ function dealSdp(sdpMsg) {
  * @param data
  */
 function myFriendsCallBack(data) {
-   /* $.each(data.result, function (i, val) {
+   $.each(data.result, function (i, val) {
         $("#myFriends").append('<li><span>' + val + '</span> <button type="button" class="btn btn-info" onclick="call(this)" style="margin: 5px 0px;">呼叫</button></li>');
-    });*/
-    $("#myFriends").append('<li><span>111</span> <button type="button" class="btn btn-info" onclick="call(this)" style="margin: 5px 0px;">呼叫</button></li>');
-    $("#myFriends").append('<li><span>222</span> <button type="button" class="btn btn-info" onclick="call(this)" style="margin: 5px 0px;">呼叫</button></li>');
-}
+    });
+  }
+
 
 /**
- * 获取自己的用户名，并建立websocket消息通道
- * @param data
+ * 建立websocket连接
  */
-function myNameCallBack(data) {
-    // myName = data.result;
-    subscribeSelf();
-}
-/**
- * 订阅自己通道
- */
-function subscribeSelf() {
-    websocket = new WebSocket(websocketUrl); //创建WebSocket对象
+function connet() {
+    websocket = new WebSocket(websocketUrl,$.cookie('Authorization')); //创建WebSocket对象
     console.info(websocket.readyState);//查看websocket当前状态
     websocket.onopen = function (evt) {
 //已经建立连接
@@ -336,7 +343,7 @@ function subscribeSelf() {
             dealSdp(result.sdpMessage);
         } else {
             //    这个里面是普通的聊天
-            alert("发送id：" + result.fromUserName + ",内容:" + result.message);
+            alert("发送名：" + result.fromUserName + ",内容:" + result.message);
         }
     };
     websocket.onerror = function (evt) {

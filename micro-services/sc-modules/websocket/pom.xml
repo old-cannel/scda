@@ -13,7 +13,6 @@
     <artifactId>websocket</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>com.scda.sc-security</groupId>
             <artifactId>security-single-jwt</artifactId>
