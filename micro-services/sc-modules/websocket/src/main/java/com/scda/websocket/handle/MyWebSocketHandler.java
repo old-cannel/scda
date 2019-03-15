@@ -66,6 +66,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
      * @param webrtcMessage 发送内容
      */
     public void sendMessage(WebSocketSession fromSession, WebSocketSession toSession, WebrtcMessage webrtcMessage) {
+        log.info("***************发送人：{}-->>接收人：{}---->>消息内容：{}***************",fromSession.getPrincipal().getName(),toSession.getPrincipal().getName(),JSONObject.toJSONString(webrtcMessage));
         if (toSession == null && fromSession != null) {
             log.warn("接收人不能为空");
             backSend(fromSession, "接收人不能为空");

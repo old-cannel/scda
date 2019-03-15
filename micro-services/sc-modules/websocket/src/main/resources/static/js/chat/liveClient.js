@@ -158,7 +158,6 @@ function receiveOffer(offerDescption) {
  */
 function receiveAnswer(answerDescption) {
     peerConnection.setRemoteDescription(answerDescption);
-    peerConnection.setRemoteDescription(answerDescption);
     //没有完成链接就重新发起链接
     if(peerConnection.iceConnectionState!='connected' && peerConnection.iceConnectionState!='completed'){
         offer();
@@ -194,9 +193,6 @@ function deny(isSend) {
 
 }
 
-function hangup() {
-
-}
 /**
  * 挂机
  */
