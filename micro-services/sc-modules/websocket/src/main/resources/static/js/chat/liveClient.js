@@ -2,7 +2,7 @@
 //websocket 服务地址
 const
     //socker 地址
-    websocketUrl = 'wss://192.168.3.25:2019/websocket/chat/websocket',
+    websocketUrl = 'wss://192.168.31.134:2019/websocket/chat/websocket',
     //我的朋友
     myFriendsUrl = '/websocket/myfriends';
 
@@ -242,7 +242,7 @@ function setIceCandidate(candidate,peerConnection) {
 
 }
 function configIce() {
-    var stunuri = false,
+    var stunuri = true,
         turnuri = false,
         config = new Array();
 
