@@ -115,6 +115,7 @@ function call(obj) {
 function receiveCall() {
     buttonShow("#denyButton");
     buttonShow("#permitButton");
+    callHide();
 }
 /**
  * 同意
@@ -207,7 +208,9 @@ function hangup(isSend) {
         peerConnection = null;
     }
 
-    buttonHide($("#hangupButton"));
+    buttonHide("#hangupButton");
+    buttonHide("#denyButton");
+    buttonHide("#permitButton");
     callShow();
 
 
