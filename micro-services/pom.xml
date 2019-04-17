@@ -16,6 +16,7 @@
         <module>sc-common</module>
         <module>sc-modules</module>
         <module>sc-security</module>
+        <module>sc-upload</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
