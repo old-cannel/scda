@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
-import util.MySecurityContextHolder;
+import com.scda.security.util.MySecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
