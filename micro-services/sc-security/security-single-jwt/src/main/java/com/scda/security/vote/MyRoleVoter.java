@@ -61,10 +61,13 @@ public class MyRoleVoter implements AccessDecisionVoter<Object> {
         }
 
         for (SysRoleMenuVo srmv : roleMenuVoList) {
-            boolean b = new AntPathRequestMatcher(srmv.getUrl()).matches(request);
-            if (b) {
-                return srmv.getRoleId();
+            if (StringUtils.isNotBlank(srmv.getUrl())) {
+                boolean b = new AntPathRequestMatcher(srmv.getUrl()).matches(request);
+                if (b) {
+                    return srmv.getRoleId();
+                }
             }
+
         }
         return null;
     }

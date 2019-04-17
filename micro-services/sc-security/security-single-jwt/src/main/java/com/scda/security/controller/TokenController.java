@@ -6,6 +6,7 @@ import com.scda.security.config.WebSecurityConfig;
 import com.scda.security.service.MySecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import util.MySecurityContextHolder;
 
@@ -16,7 +17,8 @@ import javax.servlet.http.HttpServletRequest;
  * @Date: 2019/1/16 14:34
  * @Description: token服务
  */
-@RestController("/token")
+@RestController
+@RequestMapping("/token")
 public class TokenController {
     @Autowired
     private TokenJwtRedisUtil tokenJwtRedisUtil;

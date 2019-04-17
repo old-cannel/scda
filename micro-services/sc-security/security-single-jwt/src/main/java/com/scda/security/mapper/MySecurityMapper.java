@@ -75,7 +75,7 @@ public interface MySecurityMapper extends BaseMapper<SysUserVo> {
             "\tAND sr.STATUS = '1'")
     List<SysRoleMenuVo> loadAllRroleMenuIds();
 
-    @Select("SELECT\n" +
+    @Select({"<script>","SELECT\n" +
             "\tsm.* \n" +
             "FROM\n" +
             "\tsys_role_menu srm\n" +
@@ -84,8 +84,8 @@ public interface MySecurityMapper extends BaseMapper<SysUserVo> {
             "\tsrm.del_flag = '0'\n" +
             "\tand srm.role_id in"+ " <foreach collection='roleIds' item='id' open='(' end=')' separator=','>"
             + "#{id}"
-            + "</foreach>)\n")
-    List<SysMenuVo> getMenusByUserRoleIds(List<String> roleIds);
+            + "</foreach>)\n","</script>"})
+    List<SysMenuVo> getMenusByUserRoleIds(@Param("roleIds") List<String> roleIds);
 
     /**
      * 系统所有菜单
