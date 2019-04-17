@@ -2,6 +2,7 @@ package com.scda.security.config;
 
 import com.scda.security.entrypoint.AjaxAuthenticationEntryPoint;
 import com.scda.security.filter.JwtAuthenticationTokenFilter;
+import com.scda.security.filter.WebsocketAuthenticationTokenFilter;
 import com.scda.security.handler.AjaxAccessDeniedHandler;
 import com.scda.security.handler.AjaxAuthenticationFailureHandler;
 import com.scda.security.handler.AjaxAuthenticationSuccessHandler;
@@ -58,7 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AjaxAuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
+    @Autowired
+    private WebsocketAuthenticationTokenFilter websocketAuthenticationTokenFilter;
     @Autowired
     private MyRoleVoter myRoleVoter;
 
@@ -90,6 +92,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().cacheControl()
                 .and().and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+//                websocket会话转换token（可选）
+                .addFilterAfter(websocketAuthenticationTokenFilter, JwtAuthenticationTokenFilter.class)
                 //自定义登录url
                 .formLogin().loginProcessingUrl(LOGIN_URL)
                 .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).permitAll()
@@ -107,6 +111,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 //                这里配置不需要登录和权限的资源
                 .antMatchers("/goods/**").permitAll()
+                .antMatchers("/live/**").permitAll()
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 //其他任何请求都要权限验证
                 .anyRequest().authenticated()
                 .accessDecisionManager(accessDecisionManager())

@@ -2,6 +2,7 @@ package com.scda.demo.controller;
 
 import com.scda.business.common.vo.demo.DemoVo;
 import com.scda.common.db.page.BasePage;
+import com.scda.common.response.ResponseEnum;
 import com.scda.common.response.ResponseVo;
 import com.scda.demo.service.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,11 @@ public class DemoController {
 
     @GetMapping("/hello")
     public String hello() {
-        return demoService.selectById().getName();
+        DemoVo demoVo=demoService.selectById();
+        if(demoVo==null){
+            return ResponseEnum.NO_DATA.getMessage();
+        }
+        return demoVo.getName();
     }
 
     @PostMapping("/pages")
