@@ -17,7 +17,11 @@
             <artifactId>common-business</artifactId>
             <version>${project_version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.scda.sc-security</groupId>
+            <artifactId>security-single-jwt</artifactId>
+            <version>${project_version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

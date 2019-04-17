@@ -4,12 +4,13 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scda.common.utils.TokenJwtRedisUtil;
 import com.scda.security.config.WebSecurityConfig;
+import com.scda.security.vo.MyAuthenticationDetails;
+import com.scda.security.vo.SysUserVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -34,11 +35,12 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String jwtToken = httpServletRequest.getHeader(WebSecurityConfig.TOKEN_HEADER);
 //        存在认证的token，解析出来放到UsernamePasswordAuthenticationToken，这样就可以直接进行权限认证了
-        if (StringUtils.isNotBlank(jwtToken)) {
+        if (StringUtils.isNotBlank(jwtToken)&&!"null".equals(jwtToken)) {
             //解析验证token,获取用户名和权限
             JSONObject info = tokenJwtRedisUtil.decodeVerifyToken(jwtToken);
             //判断是否存在权限
-            StringBuffer stringBuffer = new StringBuffer();;
+            StringBuffer stringBuffer = new StringBuffer();
+            ;
             if (info.containsKey("authorities")) {
                 JSONArray jsonArray = JSONObject.parseArray(info.getString("authorities"));
                 if (jsonArray != null && jsonArray.size() > 0) {
@@ -54,7 +56,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             if (info.containsKey("username")) {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(info.getString("username"), null, AuthorityUtils.commaSeparatedStringToAuthorityList(stringBuffer.toString()));
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+//                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                MyAuthenticationDetails authenticationDetail = new MyAuthenticationDetails(httpServletRequest);
+                authenticationDetail.setSysUserVo(info.toJavaObject(SysUserVo.class));
+                authenticationDetail.setJwtToken(jwtToken);
+                authentication.setDetails(authenticationDetail);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 

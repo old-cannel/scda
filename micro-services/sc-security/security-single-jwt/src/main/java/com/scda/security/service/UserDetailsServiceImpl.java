@@ -28,19 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService, Serializable 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.debug("登陆用户名：{}", username);
-//获取用户信息
-        SysUserVo sysUserVo = mySecurityService.loadByUserName(username);
-        if (sysUserVo == null || StringUtils.isBlank(sysUserVo.getId())) {
-            throw new UsernameNotFoundException("用户名不存在");
-        }
-        String roleIds = mySecurityService.loadByUserId(sysUserVo.getId());
-        if (StringUtils.isNotBlank(roleIds)) {
-            //角色
-            List<GrantedAuthority> grantedAuthorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(roleIds);
-            sysUserVo.setAuthorities(grantedAuthorityList);
-        }
-
-        return sysUserVo;
+        return mySecurityService.loadByUserName(username);
 
     }
 

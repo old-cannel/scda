@@ -20,7 +20,7 @@ public class BusinessExceptionHandler {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResponseVo handleException(Exception e) {
         return ResponseVo.fail(e.getMessage());

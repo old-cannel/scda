@@ -8,18 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * @Auther: liuqi
- * @Date: 2019/1/16 09:31
- * @Description: 全局的错误处理
+ *
  */
 @RestController
 public class GlobalErrorController implements ErrorController {
 
     @RequestMapping("/error")
-    public ResponseVo handleError(HttpServletRequest request) {
-//        //错误状态码
+    public ResponseVo handleError(HttpServletRequest request, HttpServletResponse response) {
+        //        //错误状态码
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         switch (statusCode) {
             case 401:
@@ -34,11 +33,28 @@ public class GlobalErrorController implements ErrorController {
                 if (e == null) {
                     return ResponseVo.fail(statusCode);
                 } else {
-                   if(StringUtils.isNotBlank(e.getMessage())){
-                       return new ResponseVo(ResponseEnum.findCode(e.getMessage()),e.getMessage(),e.getMessage());
-                   }
+                    if (StringUtils.isNotBlank(e.getMessage())) {
+                        setResponseStatus(response,e.getMessage());
+                        return new ResponseVo(ResponseEnum.findCode(e.getMessage()), e.getMessage(), e.getMessage());
+                    }
                     return ResponseVo.fail(e.getMessage());
                 }
+        }
+    }
+
+    /**
+     * 根据业务码纠正对应的响应码
+     * @param response 响应
+     * @param errMsg 错误消息
+     */
+    private void setResponseStatus(HttpServletResponse response,String errMsg) {
+        if (ResponseEnum.ACCESS_DENIED.getCode() == ResponseEnum.findCode(errMsg)) {
+            response.setStatus(403);
+        }
+        if (ResponseEnum.NO_LOGIN.getCode() == ResponseEnum.findCode(errMsg)) {
+            response.setStatus(401);
+        } else {
+            response.setStatus(200);
         }
     }
 

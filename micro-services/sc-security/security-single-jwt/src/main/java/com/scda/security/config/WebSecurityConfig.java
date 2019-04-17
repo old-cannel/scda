@@ -58,7 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AjaxAuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
-
     @Autowired
     private MyRoleVoter myRoleVoter;
 
@@ -67,9 +66,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 配置密码加密验证
+     *
      * @param builder
-     * @throws Exception
-     * 配置后会对请求的密码自动加密然后与系统内的密码进行验证
+     * @throws Exception 配置后会对请求的密码自动加密然后与系统内的密码进行验证
      */
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
@@ -106,7 +105,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                资源权限配置
                 .authorizeRequests()
 //                这里配置不需要登录和权限的资源
-                .antMatchers("/goods/**").permitAll()
+                .antMatchers("/login/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/js/**").permitAll()
                 //其他任何请求都要权限验证
                 .anyRequest().authenticated()
                 .accessDecisionManager(accessDecisionManager())
@@ -130,7 +131,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * 密码加密
      */
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

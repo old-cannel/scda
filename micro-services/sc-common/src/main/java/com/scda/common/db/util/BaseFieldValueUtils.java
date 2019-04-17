@@ -2,8 +2,10 @@ package com.scda.common.db.util;
 
 
 import com.scda.common.db.entity.BaseFieldVo;
+import com.scda.common.utils.IdUtils;
 
 import java.util.Date;
+import java.util.UUID;
 
 
 /**
@@ -24,6 +26,7 @@ public class BaseFieldValueUtils {
 			return;
 		}
 
+		vo.setId(IdUtils.getUUID());
 		Date now = new Date();
 		vo.setDelFlag("0");
 		vo.setAddMark(pageId.length()>9?pageId.substring(0,9):pageId);

@@ -16,6 +16,7 @@
         <module>security-single-jwt</module>
         <module>security-test-client1</module>
         <module>security-test-client2</module>
+        <module>security-sso</module>
     </modules>
 
 

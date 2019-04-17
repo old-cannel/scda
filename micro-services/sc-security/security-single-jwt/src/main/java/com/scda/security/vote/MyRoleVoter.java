@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.stereotype.Component;
+import util.MySecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -26,7 +27,7 @@ public class MyRoleVoter implements AccessDecisionVoter<Object> {
     @Autowired
     private MySecurityService mySecurityService;
 
-    private static String PREFIX="ROLE_";
+    private static String PREFIX = "ROLE_";
 
     @Override
     public boolean supports(ConfigAttribute configAttribute) {
@@ -60,10 +61,13 @@ public class MyRoleVoter implements AccessDecisionVoter<Object> {
         }
 
         for (SysRoleMenuVo srmv : roleMenuVoList) {
-            boolean b = new AntPathRequestMatcher(srmv.getUrl()).matches(request);
-            if (b) {
-                return srmv.getRoleId();
+            if (StringUtils.isNotBlank(srmv.getUrl())) {
+                boolean b = new AntPathRequestMatcher(srmv.getUrl()).matches(request);
+                if (b) {
+                    return srmv.getRoleId();
+                }
             }
+
         }
         return null;
     }
@@ -81,10 +85,14 @@ public class MyRoleVoter implements AccessDecisionVoter<Object> {
         }
         if (userRoleIds != null && userRoleIds.size() > 0) {
             for (GrantedAuthority ga : userRoleIds) {
-                if ((PREFIX+needRoleId).equals(ga.getAuthority())) {
+                if ((PREFIX + needRoleId).equals(ga.getAuthority())) {
                     return true;
                 }
             }
+        }
+        //        是超级管理员
+        if (StringUtils.isNotBlank(MySecurityContextHolder.getUser().getAdminFlag()) && "1".equals(MySecurityContextHolder.getUser().getAdminFlag())) {
+            return true;
         }
         return false;
     }

@@ -8,9 +8,8 @@
     sc-security 认证授权模块（框架）  
     sc-eureka 注册和发现服务（框架）  
     sc-zuul 网关（框架）  
-    sc-modules 业务模块  
-        common-business 公共业务（业务）  
-        demo 示例模块（新增模块都要依赖公共业务）  
+    sc-modules 业务模块（业务，详情见micro-services\sc-modules\readme.md）  
+
 
 #微服务框架下应用启动顺序
     运行注册发现 sc-eureka  
@@ -71,7 +70,24 @@
 #日志Slf4j使用
     1. 在类上面添加注解@Slf4j  
     2. 在该类内的任意地方即可使用log对象  
-
+#cache缓存使用（基于redis）
+    1.开启缓存（默认是开启）  
+        micro-services\sc-common\src\main\java\com\scda\common\config\CacheConfig.java  
+        中通过是否注释掉@EnableCaching来控制  
+    2.使用  
+        2.1 @Cacheable 读取，如果缓存没有就执行业务代码（默认是结果非空就放到缓存），如果有就直接缓存取  
+        2.2 @CachePut 手动更新，手动触发更新缓存内容  
+        2.3 @CacheEvict 手动删除  
+    3.注解常用参数说明  
+        cacheNames或value 表示命名空间,最终的redis key=命名空间:缓存key  
+        key 缓存key  
+            支持EL表达式，使用方法参数时我们可以直接使用“#参数名”或者“#p参数index”,例如参数只有id，key="#id"或key="#p0"  
+            提供root对象   
+        condition 参数满足条件才放到缓存  
+            支持EL表达式  
+         unless 结果满足条件不放到缓存  
+            支持EL表达式   
+        具体详情参见https://docs.spring.io/spring/docs/4.3.22.RELEASE/spring-framework-reference/htmlsingle/#cache  
 #动态多数据源使用和关闭
     1. 关闭（默认）  
         注释掉micro-services\sc-common\src\main\java\com\scda\common\db\dyndata\DynDataSourceRegister.java类中的  
