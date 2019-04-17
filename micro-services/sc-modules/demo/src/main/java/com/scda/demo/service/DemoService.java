@@ -2,12 +2,13 @@ package com.scda.demo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scda.business.common.vo.demo.DemoVo;
-import com.scda.common.db.util.BaseFieldValueUtils;
-import com.scda.common.utils.IdUtils;
+import com.scda.common.db.page.BasePage;
+import com.scda.common.exception.RollBackHandle;
+import com.scda.common.response.ResponseVo;
 import com.scda.demo.mapper.DemoMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.scda.security.vo.EntityUtil;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,21 +19,24 @@ import org.springframework.transaction.annotation.Transactional;
  * @Description:
  */
 @Service
-@Transactional(readOnly = true)
-public class DemoService {
-    @Autowired
-    private DemoMapper demoMapper;
+@Transactional(readOnly = true, rollbackFor = Exception.class)
+public class DemoService extends ServiceImpl<DemoMapper, DemoVo> {
 
-    @Cacheable(value = "scda", key = "#root.targetClass+#root.methodName")
-    public DemoVo selectById() {
-//        return "Hello Service!";
-        return demoMapper.selectById("1");
-    }
 
-    public IPage<DemoVo> pageList(IPage page, DemoVo demoVo) {
-        QueryWrapper queryWrapper = new QueryWrapper();
+    /**
+     * @param page
+     * @param demoVo
+     * @return
+     */
+    public BasePage<DemoVo> pageList(BasePage<DemoVo> page, DemoVo demoVo) {
+
+        /*非自定义sql分页*/
+        /* QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.setEntity(demoVo);
-        return demoMapper.selectPage(page, queryWrapper);
+        return baseMapper.selectPage(page, queryWrapper);*/
+        /*自定义sql分页*/
+        page.setRecords(baseMapper.selectPageByCustom(page, demoVo));
+        return page;
     }
 
     /**
@@ -41,11 +45,10 @@ public class DemoService {
      * @param demoVo
      * @return
      */
-    @Transactional(readOnly = false)
-    public int insert(DemoVo demoVo) {
-        demoVo.setId(IdUtils.getUUID());
-        BaseFieldValueUtils.setCommonField4Insert(demoVo, "demo", "001");
-        return demoMapper.insert(demoVo);
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public ResponseVo insert(DemoVo demoVo) {
+        EntityUtil.beforInsert(demoVo, "demo");
+        return ResponseVo.success(baseMapper.insert(demoVo));
     }
 
     /**
@@ -54,14 +57,17 @@ public class DemoService {
      * @param demoVo
      * @return
      */
-    @Transactional(readOnly = false)
-    public int update(DemoVo demoVo) {
-        BaseFieldValueUtils.setCommonField4Update(demoVo, "demo", "003");
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public ResponseVo update(DemoVo demoVo) {
+        EntityUtil.beforUpdate(demoVo, "demo");
         UpdateWrapper updateWrapper = new UpdateWrapper();
         DemoVo dv = new DemoVo();
         dv.setCode(demoVo.getCode());
         updateWrapper.setEntity(dv);
-        return demoMapper.update(demoVo, updateWrapper);
+        if (1 != baseMapper.update(demoVo, updateWrapper)) {
+            RollBackHandle.rollBack("未更新成功");
+        }
+        return ResponseVo.success("更新记录成功");
     }
 
     /**
@@ -70,12 +76,17 @@ public class DemoService {
      * @param code
      * @return
      */
-    @Transactional(readOnly = false)
-    public int delete(String code) {
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public ResponseVo delete(String code) {
+        //        物理删除
         QueryWrapper queryWrapper = new QueryWrapper();
         DemoVo dv = new DemoVo();
         dv.setCode(code);
         queryWrapper.setEntity(dv);
-        return demoMapper.delete(queryWrapper);
+
+        if (1 != baseMapper.delete(queryWrapper)) {
+            RollBackHandle.rollBack("物理删除失败");
+        }
+        return ResponseVo.success("物理删除成功");
     }
 }

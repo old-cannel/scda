@@ -2,7 +2,6 @@ package com.scda.security.config;
 
 import com.scda.security.entrypoint.AjaxAuthenticationEntryPoint;
 import com.scda.security.filter.JwtAuthenticationTokenFilter;
-import com.scda.security.filter.WebsocketAuthenticationTokenFilter;
 import com.scda.security.handler.AjaxAccessDeniedHandler;
 import com.scda.security.handler.AjaxAuthenticationFailureHandler;
 import com.scda.security.handler.AjaxAuthenticationSuccessHandler;
@@ -60,8 +59,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     @Autowired
-    private WebsocketAuthenticationTokenFilter websocketAuthenticationTokenFilter;
-    @Autowired
     private MyRoleVoter myRoleVoter;
 
     @Autowired
@@ -69,9 +66,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 配置密码加密验证
+     *
      * @param builder
-     * @throws Exception
-     * 配置后会对请求的密码自动加密然后与系统内的密码进行验证
+     * @throws Exception 配置后会对请求的密码自动加密然后与系统内的密码进行验证
      */
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception {
@@ -92,8 +89,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().cacheControl()
                 .and().and()
                 .addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-//                websocket会话转换token（可选）
-                .addFilterAfter(websocketAuthenticationTokenFilter, JwtAuthenticationTokenFilter.class)
                 //自定义登录url
                 .formLogin().loginProcessingUrl(LOGIN_URL)
                 .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).permitAll()
@@ -110,8 +105,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                资源权限配置
                 .authorizeRequests()
 //                这里配置不需要登录和权限的资源
-                .antMatchers("/goods/**").permitAll()
-                .antMatchers("/live/**").permitAll()
                 .antMatchers("/login/**").permitAll()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/js/**").permitAll()
@@ -138,7 +131,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * 密码加密
      */
     @Bean
-    public BCryptPasswordEncoder passwordEncoder(){
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
