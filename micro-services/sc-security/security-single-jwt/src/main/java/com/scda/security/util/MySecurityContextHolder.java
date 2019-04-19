@@ -1,4 +1,4 @@
-package util;
+package com.scda.security.util;
 
 import com.scda.security.vo.MyAuthenticationDetails;
 import com.scda.security.vo.SysUserVo;

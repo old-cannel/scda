@@ -2,10 +2,7 @@ package com.scda.security.vo;
 
 import com.scda.common.db.entity.BaseFieldVo;
 import com.scda.common.db.util.BaseFieldValueUtils;
-import com.scda.common.utils.IdUtils;
-import util.MySecurityContextHolder;
-
-import java.util.Date;
+import com.scda.security.util.MySecurityContextHolder;
 
 /**
  * @Auther: liuqi
