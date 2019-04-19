@@ -1,11 +1,11 @@
 package com.scda.security.vo;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.scda.common.db.entity.BaseFieldVo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @Auther: liuqi
@@ -26,9 +26,9 @@ public class SysRoleMenuVo extends BaseFieldVo {
     private String menuId;
 
 
-    //    菜单url
-    @TableField(exist = false)
-    private String url;
+    //菜单id
+    @NotBlank(message = "操作不能为空")
+    private String operationId;
 
 
 }

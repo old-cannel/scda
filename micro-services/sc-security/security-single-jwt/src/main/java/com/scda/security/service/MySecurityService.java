@@ -4,20 +4,20 @@ import com.alibaba.fastjson.JSONObject;
 import com.scda.common.utils.RedisUtil;
 import com.scda.common.utils.TokenJwtRedisUtil;
 import com.scda.security.mapper.MySecurityMapper;
-import com.scda.security.vo.SysMenuVo;
-import com.scda.security.vo.SysRoleMenuVo;
+import com.scda.security.util.MySecurityContextHolder;
+import com.scda.security.vo.SysRoleApiVo;
+import com.scda.security.vo.SysRoleMenuOperationVo;
 import com.scda.security.vo.SysUserVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.scda.security.util.MySecurityContextHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,8 +32,11 @@ public class MySecurityService {
     private MySecurityMapper mySecurityMapper;
     @Autowired
     private RedisUtil redisUtil;
+    /**
+     * 系统角色对应api => key
+     */
+    private static final String SYS_ROLE_API = "sys_role_api";
 
-    private static final String ROLE_MENU_KEY = "role_menu";
 
     /**
      * 根据用户名获取用户信息
@@ -48,7 +51,7 @@ public class MySecurityService {
         if (sysUserVo == null || StringUtils.isBlank(sysUserVo.getId())) {
             throw new UsernameNotFoundException("用户名不存在");
         }
-        String roleIds = loadByUserId(sysUserVo.getId());
+        String roleIds = selectRoleIds(sysUserVo.getId());
         if (StringUtils.isNotBlank(roleIds)) {
             //角色
             List<GrantedAuthority> grantedAuthorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(roleIds);
@@ -63,26 +66,28 @@ public class MySecurityService {
      * @param userId
      * @return多个角色英文逗号隔开
      */
-    public String loadByUserId(String userId) {
-        return mySecurityMapper.selectUrls(userId);
+    public String selectRoleIds(String userId) {
+        return mySecurityMapper.selectRoleIds(userId);
     }
 
     /**
-     * 读取系统所有的角色id对应的菜单url
+     * 读取系统所有的角色对应api信息
      *
-     * @return key roleId
-     * value url
+     * @return
      */
-    @Cacheable(value = "scda", key = "#root.methodName")
-    public List<SysRoleMenuVo> loadAllRroleMenuIds() {
-        List<SysRoleMenuVo> roleMenuVos = (List<SysRoleMenuVo>) redisUtil.get(ROLE_MENU_KEY);
-        if (roleMenuVos == null || roleMenuVos.size() <= 0) {
-            roleMenuVos = mySecurityMapper.loadAllRroleMenuIds();
-            if (roleMenuVos != null && roleMenuVos.size() > 0) {
-                redisUtil.set(ROLE_MENU_KEY, roleMenuVos);
-            }
-        }
-        return roleMenuVos;
+    @Cacheable(value = SYS_ROLE_API, key = "T(String).valueOf(#root.target)")
+    public List<SysRoleApiVo> loadRoleApi() {
+        return mySecurityMapper.loadRoleApi();
+    }
+
+    /**
+     * 更新系统所有的角色对应api信息
+     *
+     * @return
+     */
+    @CachePut(value = SYS_ROLE_API, key = "T(String).valueOf(#root.target)")
+    public List<SysRoleApiVo> updateRoleApi() {
+        return mySecurityMapper.loadRoleApi();
     }
 
     /**
@@ -95,20 +100,28 @@ public class MySecurityService {
     }
 
     /**
-     * 用户对应的菜单或功能
+     * 用户对应的菜单或操作
      *
-     * @return
+     * @return {"menus":[{"id":"","name":"","url",""},...],"operationCodes":["1","2"...]}
      */
-    public List<SysMenuVo> getMenus() {
+    public SysRoleMenuOperationVo getMenus() {
+        SysRoleMenuOperationVo sysRoleMenuOperationVo = new SysRoleMenuOperationVo();
 //        超级管理员
         if ("1".equals(MySecurityContextHolder.getUser().getAdminFlag())) {
+            //所有操作码
+            sysRoleMenuOperationVo.setOperationCodes(mySecurityMapper.loadRoleOperation());
             //所有菜单
-            return mySecurityMapper.getAllMenus();
+            sysRoleMenuOperationVo.setMenus(mySecurityMapper.loadMenus());
+        } else {
+            List<String> roleIds = MySecurityContextHolder.getRoleIds();
+            if (roleIds != null && !roleIds.isEmpty()) {
+                //用户角色id对应操作码
+                sysRoleMenuOperationVo.setOperationCodes(mySecurityMapper.loadRoleOperationByRoleIds(roleIds));
+                //用户角色id对应菜单
+                sysRoleMenuOperationVo.setMenus(mySecurityMapper.loadMenusByRoleIds(roleIds));
+            }
         }
-        List<String> roleIds = MySecurityContextHolder.getRoleIds();
-        if (roleIds == null || roleIds.isEmpty() && !"1".equals(MySecurityContextHolder.getUser().getAdminFlag())) {
-            return new ArrayList<>();
-        }
-        return mySecurityMapper.getMenusByUserRoleIds(roleIds);
+
+        return sysRoleMenuOperationVo;
     }
 }
