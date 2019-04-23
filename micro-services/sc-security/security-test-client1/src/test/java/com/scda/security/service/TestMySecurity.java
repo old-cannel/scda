@@ -29,11 +29,5 @@ public class TestMySecurity extends ApplicationTest {
         log.debug("用户admin信息：{}", JSONObject.toJSONString(sysUserVo));
     }
 
-    @Test
-    public void loadByUserId() {
-        String url = mySecurityService.loadByUserId("1");
-        Assert.assertNotNull(url);
-        log.debug("用户userId:1的资源信息：{}", url);
-    }
 
 }
