@@ -5,27 +5,26 @@ import com.scda.common.db.entity.BaseFieldVo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * @Auther: liuqi
  * @Date: 2019/1/17 15:58
- * @Description: 角色
+ * @Description: 操作接口关系
  */
-@TableName("sys_role")
+@TableName("sys_operation_api")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SysRoleVo extends BaseFieldVo {
+public class SysOperationApiVo extends BaseFieldVo {
     //编码
     private String code;
 
-    @NotBlank(message = "角色名称不能为空")
-    @Length(max = 30, message = "角色名称长度不能大于30")
-    private String name;
+    @NotBlank(message = "接口不能为空")
+    private String apiId;
 
-    @NotBlank(message = "状态不能为空")
-    private String status;
+    //菜单id
+    @NotBlank(message = "操作不能为空")
+    private String operationId;
 
 }

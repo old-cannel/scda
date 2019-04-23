@@ -4,6 +4,7 @@ import com.scda.common.test.ApplicationTest;
 import com.scda.common.utils.RedisUtil;
 import com.scda.security.service.MySecurityService;
 import com.scda.security.test.Test1BootStrap;
+import com.scda.security.vo.SysRoleApiVo;
 import com.scda.security.vo.SysRoleMenuVo;
 import com.scda.security.vo.SysUserVo;
 import lombok.extern.slf4j.Slf4j;
@@ -30,8 +31,8 @@ public class TestRedisUtil extends ApplicationTest {
 
     @Test
     public void test() {
-        List<SysRoleMenuVo> sysRoleMenuVos=mySecurityService.loadAllRroleMenuIds();
-        Assert.assertEquals(true, redisUtil.hset("test","1",sysRoleMenuVos));
+        List<SysRoleApiVo> sysRoleApiVos=mySecurityService.loadRoleApi();
+        Assert.assertEquals(true, redisUtil.hset("test","1",sysRoleApiVos));
         log.info("加载redis数据:{}",redisUtil.hget("test","1"));
     }
 

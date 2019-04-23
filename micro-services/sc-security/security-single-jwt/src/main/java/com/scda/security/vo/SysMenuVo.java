@@ -25,14 +25,19 @@ public class SysMenuVo extends BaseFieldVo {
     @Length(max = 30, message = "名称长度不能大于30")
     private String name;
 
-    @Length(max = 256, message = "备注长度不能大于256")
-    private String remark;
-
     @Length(max = 256, message = "链接长度不能大于256")
     private String url;
 
-    @NotBlank(message = "菜单深度不能为空")
-    private String deep;
+    //排序
+    private int sort;
+
+    @NotBlank(message = "显示标识不能为空")
+    private String showFlag;
+
+    @Length(max = 256, message = "备注长度不能大于256")
+    private String remark;
+
+
     //上级编码
     private String supCode;
     //上级名称
@@ -41,9 +46,9 @@ public class SysMenuVo extends BaseFieldVo {
     private String supCodes;
     //上级名称集合
     private String supNames;
-    //排序
-    private int sort;
-    //类型,0菜单,1api
-    @NotBlank(message = "菜单类型不能为空")
-    private String type;
+
+    @NotBlank(message = "菜单深度不能为空")
+    private String deep;
+
+
 }

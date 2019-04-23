@@ -1,0 +1,61 @@
+server:
+  port: ${PORT:87}
+  context-path: /demo
+
+logging:
+  path: "/logs/${spring.application.name}"
+  level:
+    com.sdca: DEBUG
+spring:
+  redis:
+    database: 5
+    host: 10.110.1.254
+    password:
+    port: 6379
+    pool:
+      max-active: 100
+      max-idle: 100
+      max-wait: -1
+      min-idle: 0
+    timeout: 0
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    default-property-inclusion: non_null
+  datasource:
+    druid:
+      username: root
+      password: root
+
+      #      利用数据库驱动自带的replication机制进行读写分离
+      driver-class-name: com.mysql.jdbc.ReplicationDriver
+      url: jdbc:mysql:replication://127.0.0.1:3306,127.0.0.1:3306/security?useUnicode=true&characterEncoding=UTF-8&autoReconnect=false&useSSL=false&failOverReadOnly=true&loadBalanceStrategy=random&readFormMasterNoSlaves=true
+
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      #      max-open-prepared-statements:   #和上面的等价
+      validation-query: SELECT 1 FROM DUAL
+      validation-query-timeout: 30000
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      #      time-between-eviction-runs-millis:
+      #      min-evictable-idle-time-millis:
+      #      max-evictable-idle-time-millis:
+      filters: stat,wall  #配置多个英文逗号分隔
+  rabbitmq:
+    host: 10.110.1.254
+    port: 5672
+    username: admin
+    password: admin
+
+  aop:
+    proxy-target-class: true
+mybatis-plus:
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
