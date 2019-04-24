@@ -100,6 +100,14 @@
     3. 默认是支持两个数据源的，如果需要多个可以在micro-services\sc-common\src\main\java\com\scda\common\db\dyndata\DynDataSourceAspect.java类中的修改doBefore方法  
     4. 以上方式可以用mycat中间件方案来统一管理，优点与编码解耦  
 
-
+#服务之间调用feign
+    1.调用方开启feign,在启动类追加注解
+    @EnableFeignClients
+    2.新建调用服务，例如DemoFeign
+        D:\myworkspace\scda\micro-services\sc-security\security-test-client1\src\main\java\com\scda\security\test\feign\DemoFeign.java
+    3.调用
+    @Autowired
+    private DemoFeign demoFeign;  
+      
 #认证授权模块sc-security
     使用说明见micro-services\sc-security\readme.md  

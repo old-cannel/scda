@@ -1,13 +1,11 @@
 package com.scda.common.response;
 
-import java.io.Serializable;
-
 /**
  * @author liuqi
  * @Date 2018-04-27.
  * @describe 响应
  */
-public class ResponseVo implements Serializable {
+public class ResponseVo {
 
     /* 编码：代码 */
     private int code;
@@ -37,7 +35,7 @@ public class ResponseVo implements Serializable {
         return result;
     }
 
-    public void setResult(Serializable result) {
+    public void setResult(Object result) {
         this.result = result;
     }
 
@@ -68,7 +66,7 @@ public class ResponseVo implements Serializable {
         responseVo.setCode(responseEnum.getCode());
         responseVo.setMsg(responseEnum.getMessage());
         if (result != null) {
-            responseVo.setResult((Serializable) result);
+            responseVo.setResult(result);
         }
 
         return responseVo;
@@ -85,7 +83,7 @@ public class ResponseVo implements Serializable {
         responseVo.setCode(ResponseEnum.SUCCESS.getCode());
         responseVo.setMsg(ResponseEnum.SUCCESS.getMessage());
         if (result != null) {
-            responseVo.setResult((Serializable) result);
+            responseVo.setResult(result);
         }
 
         return responseVo;
@@ -102,7 +100,7 @@ public class ResponseVo implements Serializable {
         responseVo.setCode(ResponseEnum.FAIL.getCode());
         responseVo.setMsg(ResponseEnum.FAIL.getMessage());
         if (result != null) {
-            responseVo.setResult((Serializable) result);
+            responseVo.setResult(result);
         }
 
         return responseVo;
@@ -134,6 +132,7 @@ public class ResponseVo implements Serializable {
 
     /**
      * 业务数据验证未通过
+     *
      * @param result
      * @return
      */
@@ -142,7 +141,7 @@ public class ResponseVo implements Serializable {
         responseVo.setCode(ResponseEnum.VALID_FAIL.getCode());
         responseVo.setMsg(ResponseEnum.VALID_FAIL.getMessage());
         if (result != null) {
-            responseVo.setResult((Serializable) result);
+            responseVo.setResult(result);
         }
 
         return responseVo;
@@ -150,6 +149,7 @@ public class ResponseVo implements Serializable {
 
     /**
      * 拒绝访问，没有权限
+     *
      * @param result
      * @return
      */
@@ -158,9 +158,31 @@ public class ResponseVo implements Serializable {
         responseVo.setCode(ResponseEnum.ACCESS_DENIED.getCode());
         responseVo.setMsg(ResponseEnum.ACCESS_DENIED.getMessage());
         if (result != null) {
-            responseVo.setResult((Serializable) result);
+            responseVo.setResult(result);
         }
 
         return responseVo;
+    }
+
+    /**
+     * 系统繁忙，请稍后再试
+     *
+     * @param result
+     * @return
+     */
+    public static ResponseVo busy(Object result) {
+        ResponseVo responseVo = new ResponseVo();
+        responseVo.setCode(ResponseEnum.SYSTEM_BUSY.getCode());
+        responseVo.setMsg(ResponseEnum.SYSTEM_BUSY.getMessage());
+        if (result != null) {
+            responseVo.setResult(result);
+        }
+
+        return responseVo;
+    }
+
+    @Override
+    public String toString() {
+        return "ResponseVo{" + "code=" + code + ", result=" + result + ", msg='" + msg + '\'' + '}';
     }
 }
