@@ -17,6 +17,7 @@ public enum ResponseEnum {
     FAIL(20000, "请求失败"),
     ACCESS_DENIED(20001, "拒绝访问"),
     VALID_FAIL(20002, "参数格式不正确"),
+    SYSTEM_BUSY(20003, "系统繁忙，请稍后再试"),
 
     ;
     private int code;
