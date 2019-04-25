@@ -2,7 +2,6 @@ package com.scda.util;
 
 import cn.hutool.core.date.DateUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.velocity.shaded.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -290,30 +289,6 @@ public class FileUtil {
             throw new RuntimeException("创建目录异常，详情：" + e.getMessage());
         }
         return dirPath;
-    }
-
-
-    /**
-     * 在Linux系统中读取文件时将文件排序
-     *
-     * @param filePath
-     * @return
-     */
-    public File[] fileSort(String filePath) {
-        File[] files = new File(filePath).listFiles();
-        int filesLength = files.length;
-        String nextFix = FilenameUtils.getExtension(files[0].getName());
-        File[] fileNames = new File[filesLength];
-        for (int i = 0; i < filesLength; i++) {
-            for (int j = 0; j < filesLength; j++) {
-                String absolutePath = files[j].getAbsolutePath();
-                if (absolutePath.endsWith("/" + i + "." + nextFix) || absolutePath.endsWith("\\" + i + "." + nextFix)) {
-                    fileNames[i] = new File(absolutePath);
-                    break;
-                }
-            }
-        }
-        return fileNames;
     }
 
 

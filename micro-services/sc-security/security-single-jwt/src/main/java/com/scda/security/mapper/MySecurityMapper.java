@@ -6,7 +6,6 @@ import com.scda.security.vo.SysRoleApiVo;
 import com.scda.security.vo.SysUserVo;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -102,6 +101,7 @@ public interface MySecurityMapper extends BaseMapper<SysUserVo> {
 
     /**
      * 所有可用菜单
+     *
      * @return
      */
     @Select("SELECT\n" +
@@ -117,6 +117,7 @@ public interface MySecurityMapper extends BaseMapper<SysUserVo> {
 
     /**
      * 用户角色对应菜单
+     *
      * @param roleIds
      * @return
      */
