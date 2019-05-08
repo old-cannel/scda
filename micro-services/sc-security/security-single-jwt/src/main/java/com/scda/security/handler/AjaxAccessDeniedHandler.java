@@ -3,6 +3,7 @@ package com.scda.security.handler;
 import com.alibaba.fastjson.JSONObject;
 import com.scda.common.response.ResponseVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class AjaxAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
         log.error("访问拒绝，异常：{}", accessDeniedException.getMessage());
         response.setContentType("application/json; charset=utf-8");
+        response.setStatus(HttpStatus.FORBIDDEN.value());
         response.getWriter().write(JSONObject.toJSONString(ResponseVo.accessDenied(accessDeniedException.getMessage())));
     }
 }
